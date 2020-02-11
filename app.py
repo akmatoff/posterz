@@ -71,7 +71,7 @@ def login():
     password_en = request.form['password']
 
     # Create cursor
-    with sqlit3.connect('posterz.db') as con:
+    with sqlite3.connect('posterz.db') as con:
       cur = con.cursor()
       result = cur.execute("SELECT * FROM users WHERE username = ?", [username])
 
