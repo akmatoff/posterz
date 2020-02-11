@@ -1,0 +1,13 @@
+@font-face {
+  src: url('static/fonts/')
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+

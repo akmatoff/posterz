@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <title>{% block title %}POSTERZ{% endblock %}</title>
     <link rel="stylesheet" href="{{url_for('static', filename="css/style.css")}}">
   </head>
   <body>
-    <script src="static/js/script.js">
+    {% block content %}
+    {% endblock %}
+    <script src="static/js/script.js"></script>
   </body>
 </html>
