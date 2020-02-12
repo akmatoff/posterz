@@ -138,6 +138,11 @@ footer {
   text-decoration: none;
   font-size: 20px;
   padding: 0 5px;
+  transition: ease 0.3s;
+}
+
+#social-media-container a:hover {
+  color: #bd554d;
 }
 
 #footer-navbar {
@@ -150,6 +155,7 @@ footer {
   text-decoration: none;
   color: white;
   padding: 5px;
+  transition: ease 0.3s;
 }
 
 #footer-navbar a:hover {
