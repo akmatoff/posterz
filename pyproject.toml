@@ -7,6 +7,8 @@ authors = ["Azim Akmatov <azim.akmatov1@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 flask = "^1.1"
+passlib = "^1.7"
+wtforms = "^2.2"
 
 [tool.poetry.dev-dependencies]
 
