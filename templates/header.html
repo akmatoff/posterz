@@ -7,7 +7,13 @@
   </div>
 
   <div id="authorize">
+    {% if session.logged_in %}
+    <a href="/dashboard">МОИ СТАТЬИ</a>
+    <a href="/logout">ВЫЙТИ</a>
+    {% else %}
     <a href="/login">ЛОГИН</a>
     <a href="/register">РЕГИСТРАЦИЯ</a>
+    {% endif %}
+    
   </div>
 </header>
