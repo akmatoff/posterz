@@ -127,4 +127,4 @@ def logout():
 
 if __name__ == "__main__":
   app.secret_key = '1337228133722800001526'
-  app.run(host='', debug=True) 
+  app.run(debug=True) 
