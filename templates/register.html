@@ -9,22 +9,22 @@
             {% from "formhelpers.html" import render_field %}
             <form method="POST" action="">
                 <div class="form-group">
-                    {{render_field(form.first_name, id_="form-field")}}
+                    {{render_field(form.first_name, id="form-field")}}
                 </div>
                 <div class="form-group">
-                    {{render_field(form.last_name, id_="form-field")}}
+                    {{render_field(form.last_name, id="form-field")}}
                 </div>
                 <div class="form-group">
-                    {{render_field(form.username, id_="form-field")}}
+                    {{render_field(form.username, id="form-field")}}
                 </div>
                 <div class="form-group">
-                    {{render_field(form.email, id_="form-field")}}
+                    {{render_field(form.email, id="form-field")}}
                 </div>
                 <div class="form-group">
-                    {{render_field(form.password, id_="form-field")}}
+                    {{render_field(form.password, id="form-field", autocomplete="off")}}
                 </div>
                 <div class="form-group">
-                    {{render_field(form.confirm, id_="form-field")}}
+                    {{render_field(form.confirm, id="form-field", autocomplete="off")}}
                 </div>
                 <p><input type="submit" id="submit-button" value="Отправить"></p>
             </form>
