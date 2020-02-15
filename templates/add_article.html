@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    {% from 'formhelpers.html' import render_field %}
+    <div id="container">
+        <h1 id="header-text">Добавление статьи</h1>
+        <form method="POST" action="">
+            <div id="form-group">
+                {{ render_field(form.title, id="form-field") }}
+            </div>
+            <div id="form-group">
+                {{ render_field(form.body, id="editor") }}
+            </div>
+            <p><input id="submit-button" type="submit" value="Опубликовать"></p>
+        </form>
+    </div>
+{% endblock %}

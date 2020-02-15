@@ -78,13 +78,6 @@ header {
   flex-direction: column;
 }
 
-#container a, #container h1 {
-  text-decoration: none;
-  color: white;
-  font-size: 25px;
-  font-weight: bold;
-}
-
 #container-inner {
   width: 60%;
   padding: 10px 10px;
@@ -169,6 +162,34 @@ form {
 
 #container-inner h1 {
   text-align: center;
+}
+
+#header-text {
+  color: white;
+  font-weight: bold;
+}
+
+#body-text {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 5px;
+}
+
+#add-button {
+  width: 130px;
+  height: 60px;
+  background-color: #bd554d;
+  color: white;
+  text-decoration: none;
+  padding: 7px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#add-button:hover {
+  background-color: #9c4640;
 }
 
 footer {

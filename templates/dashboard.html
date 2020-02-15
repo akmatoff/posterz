@@ -2,7 +2,29 @@
 
 {% block content %}
     <div id="container">
-        <h1>Добро пожаловать, <small>{{session.username}}</small></h1>
+        <h1 id="header-text">Добро пожаловать, <small>{{session.username}}</small></h1>
+        <a id="add-button" href="/add_article">Добавить статью</a>
+
+        <table id="table">
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>Дата публикации</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for article in articles %}
+                <tr>
+                    <td>{{article.id}}</td>
+                    <td>{{article.title}}</td>
+                    <td>{{article.author}}</td>
+                    <td>{{article.create_date}}</td>
+                    <td><a id="add-button" href="edit_article/{{article.id}}">Редактировать</a></td>
+                    <td><a id="add-button" href="#">Удалить</a></td> 
+                </tr>
+            {% endfor %}
+        </table>
     </div>
     
 {% endblock %}

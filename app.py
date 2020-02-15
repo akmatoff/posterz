@@ -3,10 +3,10 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 import sqlite3
-from data import Articles
+# from data import Articles
 
 app = Flask(__name__)
-Articles = Articles()
+# Articles = Articles()
 
 def dict_factory(cursor, row):
     d = {}
@@ -24,7 +24,21 @@ def about():
 
 @app.route('/articles')
 def articles():
-  return render_template('articles.html', articles=Articles)
+
+  con = sqlite3.connect('posterz.db')
+  cur = con.cursor()
+
+  result = cur.execute("SELECT * FROM articles")
+
+  articles = cur.fetchall()
+
+  if result.rowcount == -1:
+    return render_template('articles.html', articles=articles)
+  else:
+    msg = "Статьи не найдены"
+    return render_template('articles.html', msg=msg)
+
+  cur.close()  
 
 @app.route('/article/<string:id>/')
 def article(id):
@@ -117,10 +131,54 @@ def is_logged_in(f):
 @app.route('/dashboard')
 @is_logged_in
 def dashboard():
-  return render_template('dashboard.html')  
+
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = dict_factory
+  cur = con.cursor()
+
+  result = cur.execute("SELECT * FROM articles")
+
+  articles = cur.fetchall()
+
+  if result.rowcount >= -1:
+    return render_template('dashboard.html', articles=articles)
+  else:  
+    msg = 'У вас еще нет статьей.'
+    return render_template('dashboard.html', msg=msg)  
+
+# Article form class
+class ArticleForm(Form):
+  title = StringField('Название', [validators.Length(min=1, max=250)])
+  body = TextAreaField('Статья', [validators.Length(min=30)])
+
+# Add Article
+@app.route('/add_article', methods=['GET', 'POST'])
+@is_logged_in
+def add_article():
+  form = ArticleForm(request.form)
+  if request.method == 'POST' and form.validate():
+    title = form.title.data
+    body = form.body.data
+
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = dict_factory
+    cur = con.cursor()
+
+    # Execute
+    cur.execute("INSERT INTO articles(title, body, author) VALUES(?, ?, ?)",(title, body, session['username']))
+    
+    con.commit()
+    cur.close()
+
+    flash('Статья опубликована!', 'success')
+
+    return redirect(url_for('dashboard'))
+
+  return render_template('add_article.html', form=form) 
 
 # Logout
 @app.route('/logout')
+@is_logged_in
 def logout():
   session.clear()
   return redirect(url_for('login')) 
