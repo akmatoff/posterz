@@ -182,6 +182,62 @@ def add_article():
 
   return render_template('add_article.html', form=form) 
 
+# Edit article
+@app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
+@is_logged_in
+def edit_article(id):
+
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = dict_factory
+  cur = con.cursor()
+
+  # Get article by id
+  result = cur.execute("SELECT * FROM articles WHERE id = ?", [id])
+
+  article = cur.fetchone()
+
+  form = ArticleForm(request.form)
+
+  form.title.data = article['title']
+  form.body.data = article['body'] 
+
+  if request.method == 'POST' and form.validate():
+    title = request.form['title']
+    body = request.form['body']
+
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = dict_factory
+    cur = con.cursor()
+
+    # Execute
+    cur.execute("UPDATE articles SET title=?, body=? WHERE id = ?", (title, body, id))
+    
+    con.commit()
+    cur.close()
+
+    flash('Статья обновлена!', 'success')
+
+    return redirect(url_for('dashboard'))
+
+  return render_template('edit_article.html', form=form)   
+
+# Delete article
+@app.route('/delete_article/<string:id>', methods=['POST'])
+@is_logged_in
+def delete_article(id):
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = dict_factory
+  cur = con.cursor()
+
+  cur.execute("DELETE FROM articles WHERE id = ?", [id])
+
+  con.commit()
+  cur.close()
+
+  flash('Статья удалена!')
+
+  return redirect(url_for('dashboard'))
+
 # Logout
 @app.route('/logout')
 @is_logged_in

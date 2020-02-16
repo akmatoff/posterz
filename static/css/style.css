@@ -130,6 +130,7 @@ header {
   width: 300px;
   margin: 0 auto;
   align-items: center;
+  color: white;
 }
 
 #form-group {
@@ -250,7 +251,7 @@ th, td {
 
 small {
   color: #c5c5c7;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 100;
   text-align: center;
 }

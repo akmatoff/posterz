@@ -14,15 +14,24 @@
                 <th></th>
                 <th></th>
             </tr>
+            
             {% for article in articles %}
-                <tr>
-                    <td>{{article.id}}</td>
-                    <td>{{article.title}}</td>
-                    <td>{{article.author}}</td>
-                    <td>{{article.create_date}}</td>
-                    <td><a id="add-button" href="edit_article/{{article.id}}">Редактировать</a></td>
-                    <td><a id="delete-button" href="#">Удалить</a></td> 
-                </tr>
+                {% if session['username'] == article.author %}
+
+                    <tr>
+                        <td>{{article.id}}</td>
+                        <td>{{article.title}}</td>
+                        <td>{{article.author}}</td>
+                        <td>{{article.create_date}}</td>
+                        <td><a id="add-button" href="edit_article/{{article.id}}">Редактировать</a></td>
+                        <td>
+                            <form action="{{url_for('delete_article', id=article.id)}}" method="POST">
+                                <input type="hidden" name="_method" value="Удалить">
+                                <input type="submit" value="Удалить" id="delete-button">
+                            </form>
+                        </td> 
+                    </tr>
+                {%  endif %}
             {% endfor %}
         </table>
     </div>
