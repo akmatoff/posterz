@@ -3,10 +3,10 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 import sqlite3
-# from data import Articles
+from data import Articles
 
 app = Flask(__name__)
-# Articles = Articles()
+Articles = Articles()
 
 def dict_factory(cursor, row):
     d = {}
@@ -32,8 +32,8 @@ def articles():
 
   articles = cur.fetchall()
 
-  if result.rowcount == -1:
-    return render_template('articles.html', articles=articles)
+  if result != None:
+    return render_template('articles.html', articles=Articles)
   else:
     msg = "Статьи не найдены"
     return render_template('articles.html', msg=msg)
@@ -93,8 +93,7 @@ def login():
     con.row_factory = dict_factory
     cur = con.cursor()
     result = cur.execute("SELECT * FROM users WHERE username = ?", [username])
-
-    if result.rowcount == -1:
+    if result != None:
       data = cur.fetchone()
       password = data['password']
 
@@ -140,7 +139,7 @@ def dashboard():
 
   articles = cur.fetchall()
 
-  if result.rowcount >= -1:
+  if articles != None:
     return render_template('dashboard.html', articles=articles)
   else:  
     msg = 'У вас еще нет статьей.'

@@ -1,6 +1,6 @@
 @font-face {
   font-family: San Francisco;
-  src: url(../fonts/SFNSDisplay-Thin.ttf);
+  src: url(../fonts/SFNSDisplay-Regular.ttf);
 }
 
 @font-face {
@@ -25,7 +25,7 @@ body {
 header {
   width: 100%;
   height: 15%;
-  background-color: #111;
+  background-color: #0f0f12;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -56,8 +56,8 @@ header {
 }
 
 #navbar a:hover, #authorize a:hover {
-  color: #111;
-  background-color: #bd554d;
+  color: #0f0f12;
+  background-color: #f56962;
   border-radius: 15px;
 }
 
@@ -71,7 +71,7 @@ header {
   width: 100%;
   height: 100vh;
   min-height: 50vh;
-  background-color: #111;
+  background-color: #191921;
   justify-content: center;
   align-self: center;
   align-items: center;
@@ -99,17 +99,19 @@ header {
 }
 
 #list-group-item {
-  height: 60px;
-  padding: 15px 10px;
+  height: 100px;
+  padding: 20px 10px;
   box-shadow: 7px 5px 5px rgba(0,0,0,0.5);
-  border-radius: 20px;
+  border-radius: 5px;
   display: block;
   transition: ease 0.3s;
   margin: 5px 0;
+  background-color: white;
+  color: #0f0f12;
 }
 
 #list-group-item:hover {
-  background-color: #999;
+  background-color: #31998d;
 }
 
 label {
@@ -140,7 +142,7 @@ form {
   border: none;
   color: white;
   font-size: 20px;
-  border-bottom: 3px #bd554d solid;
+  border-bottom: 3px #f56962 solid;
   margin: 10px auto;
   display: flex;
   flex-direction: column;
@@ -152,12 +154,12 @@ form {
   color: white;
   font-weight: bold;
   border: none;
-  background-color: #bd554d;
+  background-color: #f56962;
   margin-top: 70px;
 }
 
 #submit-button:hover {
-  background-color: #9c4640;
+  background-color: #c95651;
 }
 
 #container-inner h1 {
@@ -179,23 +181,68 @@ form {
 #add-button {
   width: 130px;
   height: 60px;
-  background-color: #bd554d;
+  background-color: #2b9e4f;
   color: white;
   text-decoration: none;
   padding: 7px;
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+  transition: ease-in 0.2s;
 }
 
 #add-button:hover {
-  background-color: #9c4640;
+  background-color: #248542;
+}
+
+#delete-button {
+  width: 130px;
+  height: 60px;
+  background-color: #f56962;
+  color: white;
+  text-decoration: none;
+  padding: 7px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  transition: ease-in 0.2s;
+}
+
+#delete-button:hover {
+  background-color: #c95651;
+}
+
+#table {
+  margin-top: 50px;
+  width: 80vh;
+  height: 60px;
+  border: none;
+}
+
+th {
+  background-color: #f56962;
+  color: white;
+}
+
+td {
+  background-color: white;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: center;
+  padding: 10px;
+  border: none;
+}
+
+#error {
+  background-color: red;
 }
 
 footer {
   width: 100%;
   height: 150px;
-  background-color: #111;
+  background-color: #0f0f12;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -211,7 +258,7 @@ footer {
 }
 
 #social-media-container a:hover {
-  color: #bd554d;
+  color: #f56962;
 }
 
 #footer-navbar {
@@ -228,7 +275,7 @@ footer {
 }
 
 #footer-navbar a:hover {
-  color: #bd554d;
+  color: #f56962;
 }
 
 #footer-text-container {
