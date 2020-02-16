@@ -7,7 +7,7 @@
         <div id="container-inner">
             <h1 id="header-text">Регистрация</h1>
             {% from "formhelpers.html" import render_field %}
-            <form method="POST" action="">
+            <form method="POST" action="" id="form">
                 <div class="form-group">
                     {{render_field(form.first_name, id="form-field")}}
                 </div>

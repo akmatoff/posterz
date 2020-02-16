@@ -26,14 +26,15 @@ def about():
 def articles():
 
   con = sqlite3.connect('posterz.db')
+  con.row_factory = dict_factory
   cur = con.cursor()
 
   result = cur.execute("SELECT * FROM articles")
 
   articles = cur.fetchall()
 
-  if result != None:
-    return render_template('articles.html', articles=Articles)
+  if articles != None:
+    return render_template('articles.html', articles=articles)
   else:
     msg = "Статьи не найдены"
     return render_template('articles.html', msg=msg)
@@ -42,7 +43,13 @@ def articles():
 
 @app.route('/article/<string:id>/')
 def article(id):
-  return render_template('article.html', id=id)
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = dict_factory
+  cur = con.cursor()
+  result = cur.execute("SELECT * FROM articles WHERE id = ?", [id])
+
+  article = cur.fetchone()
+  return render_template('article.html', article=article)
 
 class RegisterForm(Form):
   first_name = StringField('Имя', [validators.Length(min=1, max=80)])

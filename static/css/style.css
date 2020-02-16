@@ -100,28 +100,31 @@ header {
 
 #list-group-item {
   height: 100px;
-  padding: 20px 10px;
-  box-shadow: 7px 5px 5px rgba(0,0,0,0.5);
   border-radius: 5px;
   display: block;
   transition: ease 0.3s;
   margin: 5px 0;
-  background-color: white;
-  color: #0f0f12;
+  padding: 25px;
+  color: white;
+  border: 4px #16161c solid;
+  border-left: none;
+  border-right: none;
+  text-align: center;
 }
 
 #list-group-item:hover {
-  background-color: #31998d;
+  background-color: #16161c;
+  color: white;
 }
 
-label {
+#label {
   color: white;
   align-self: center;
   margin: 0 auto;
   font-weight: bold;
 }
 
-form {
+#form {
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -149,7 +152,7 @@ form {
 }
 
 #submit-button {
-  width: 100px;
+  min-width: 100px;
   height: 40px;
   color: white;
   font-weight: bold;
@@ -235,8 +238,68 @@ th, td {
   border: none;
 }
 
+#article-body {
+  width: 85%;
+  height: auto;
+  color: white;
+  text-align: justify;
+  font-size: 18px;
+  font-weight: 200;
+  margin-top: 20px;
+}
+
+small {
+  color: #c5c5c7;
+  font-size: 15px;
+  font-weight: 100;
+  text-align: center;
+}
+
+hr {
+  color: #c5c5c5;
+  width: 86%;
+}
+
 #error {
   background-color: red;
+}
+
+#article-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #191921;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 10%;
+}
+
+#article-form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+#article-form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: flex-start;
+  width: 100%;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+#article-form-field {
+  width: 85%;
+  height: 30px;
+}
+
+#editor {
+  min-height: 500px;
+  min-width: 85%;
+  max-width: 85%;
 }
 
 footer {

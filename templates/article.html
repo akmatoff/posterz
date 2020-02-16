@@ -1,10 +1,16 @@
 {% extends 'layout.html' %}
 
-{% block title %}{{id}}{% endblock %}
+{% block title %}{{article.title}}{% endblock %}
 
 {% block content %}
     <div id="container">
-        <h1 id="header-text">{{id}}</h1>
+        <h1 id="header-text">{{article.title}}</h1>
+        <hr>
+        <small><b>Автор:</b> {{article.author}}<br><b>Дата публикации:</b> {{article.create_date}}</small>
+        <hr>
+        <div id="article-body">
+            {{article.body}}
+        </div>
     </div>
     
 {% endblock %}
