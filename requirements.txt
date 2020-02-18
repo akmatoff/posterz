@@ -6,7 +6,7 @@ bottle-websocket==0.2.9
 cffi==1.13.2
 Click==7.0
 colorama==0.4.1
-Django==2.2.6
+Django==2.2.10
 Eel==0.11.0
 Flask==1.1.1
 Flask-SQLAlchemy==2.4.1
