@@ -2,7 +2,7 @@
 <html lang="ru-RUS">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}POSTERZ{% endblock %}</title>
     <link rel="stylesheet" href="{{url_for('static', filename="css/style.css")}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
@@ -15,9 +15,11 @@
     {% endblock %}
     {% include 'footer.html' %}
     <script src="static/js/script.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>
       CKEDITOR.replace('editor')
+      CKEDITOR.config.width = '85%';
+      CKEDITOR.config.height = '600';
     </script>
   </body>
 </html>

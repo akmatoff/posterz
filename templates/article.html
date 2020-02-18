@@ -9,7 +9,7 @@
         <small><b>Автор:</b> {{article.author}}<br><b>Дата публикации:</b> {{article.create_date}}</small>
         <hr>
         <div id="article-body">
-            {{article.body}}
+            {{article.body | safe}}
         </div>
     </div>
     
