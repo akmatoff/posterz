@@ -155,6 +155,7 @@ def dashboard():
 
 # Article form class
 class ArticleForm(Form):
+  cover = StringField('Ссылка на обложку (URL картинки)')
   title = StringField('Название', [validators.Length(min=1, max=250)])
   body = TextAreaField('Статья', [validators.Length(min=30)])
 
@@ -164,16 +165,16 @@ class ArticleForm(Form):
 def add_article():
   form = ArticleForm(request.form)
   if request.method == 'POST' and form.validate():
+    cover = form.cover.data
     title = form.title.data
     body = form.body.data
 
     con = sqlite3.connect('posterz.db')
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    
 
     # Execute
-    cur.execute("INSERT INTO articles(title, body, author) VALUES(?, ?, ?)",(title, body, session['username']))
+    cur.execute("INSERT INTO articles(cover, title, body, author) VALUES(?, ?, ?, ?)",(cover, title, body, session['username']))
     
     con.commit()
     cur.close()
@@ -194,16 +195,18 @@ def edit_article(id):
   cur = con.cursor()
   
   # Get article by id
-  result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
+  result = cur.execute("SELECT * FROM articles WHERE id = ?", [id])
 
   article = cur.fetchone()
 
   form = ArticleForm(request.form)
 
+  form.cover.data = article['cover']
   form.title.data = article['title']
   form.body.data = article['body'] 
 
   if request.method == 'POST' and form.validate():
+    cover = request.form['cover']
     title = request.form['title']
     body = request.form['body']
 
@@ -213,7 +216,7 @@ def edit_article(id):
     
 
     # Execute
-    cur.execute("UPDATE articles SET title=?, body=? WHERE id = ?", (title, body, id))
+    cur.execute("UPDATE articles SET cover=?, title=?, body=? WHERE id = ?", (cover, title, body, id))
     
     con.commit()
     cur.close()
