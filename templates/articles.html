@@ -7,7 +7,7 @@
         <h1 id="header-text">СТАТЬИ</h1>
         <ul id="list-group">
             {% for article in articles %}
-                <a id="body-text" href="article/{{article.id}}"><li id="list-group-item">{{ article.title }}</li></a>
+                <a id="body-text" href="article/{{article.id}}"><li id="list-group-item">{{ article.title }}<br><small><b>Автор:</b> {{ article.author }}</small></li></a>
             {% endfor %}
         </ul>
     </div>

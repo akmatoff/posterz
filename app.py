@@ -105,8 +105,8 @@ def login():
     # con.row_factory = dict_factory
     con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
     cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = "SELECT count(*) FROM users"
-    cur.execute(query)
+    query = "SELECT count(*) FROM users WHERE username = %s"
+    cur.execute(query, [username])
     count = int(cur.fetchone()[0])
     result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
     if count > 0:
@@ -118,16 +118,17 @@ def login():
         session['logged_in'] = True
         session['username'] = username
 
-        flash('Вы успешно авторизовались', 'success')
+        flash('Вы успешно авторизовались')
         return redirect(url_for('dashboard'))  
+        cur.close()
       else:
         error = 'Неверный логин или пароль!'
         return render_template('login.html', error=error) 
 
-      cur.close()  
     else:
       error = 'Пользователь не найден'
       return render_template('login.html', error=error) 
+        
 
   return render_template('login.html')
 
@@ -137,7 +138,7 @@ def is_logged_in(f):
     if 'logged_in' in session:
       return f(*args, **kwargs)
     else:
-      flash('Вы не авторизованы, пожалуйста авторизуйтесь!', 'danger')
+      flash('Вы не авторизованы, пожалуйста авторизуйтесь!')
       return redirect(url_for('login'))
 
   return wrap    
@@ -187,7 +188,7 @@ def add_article():
     con.commit()
     cur.close()
 
-    flash('Статья опубликована!', 'success')
+    flash('Статья опубликована!')
 
     return redirect(url_for('dashboard'))
 
@@ -260,5 +261,5 @@ def logout():
   return redirect(url_for('login')) 
 
 if __name__ == "__main__":
-  app.secret_key = '1337228133722800001526'
+  app.secret_key = '133722g781coke33722800001526fshg234/*3452kgsooitnbsZ//hgs///3/2j'
   app.run(debug=True) 
