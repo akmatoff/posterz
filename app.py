@@ -1,14 +1,13 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
+from flask import Flask, render_template, flash, redirect, url_for, session, request
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 import psycopg2
 import psycopg2.extras
+import settings
 # import sqlite3
-# from data import Articles
 
 app = Flask(__name__)
-# Articles = Articles()
 
 # def dict_factory(cursor, row):
 #     d = {}
@@ -29,7 +28,7 @@ def articles():
 
   # con = sqlite3.connect('posterz.db')
   # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
   cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
 
   result = cur.execute("SELECT * FROM articles")
@@ -48,7 +47,7 @@ def articles():
 def article(id):
   # con = sqlite3.connect('posterz.db')
   # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
   cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
   result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
 
@@ -79,17 +78,22 @@ def register():
     # Create cursor
     # with sqlite3.connect('posterz.db') as con:
     #   con.row_factory = dict_factory
-    con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
     cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(%s,%s,%s,%s,%s)", (first_name, last_name, username, email, password))
+    cur.execute("SELECT * FROM users WHERE username = %s", [username])
+    user = cur.fetchone()
 
-    # Commit to DB
-    con.commit()
+    if username == user['username']:
+      flash('Пользователь уже существует! Авторизуйтесь или выберите другое имя пользователя!')
+    else:
+      cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(%s,%s,%s,%s,%s)", (first_name, last_name, username, email, password))
+      # Commit to DB
+      con.commit()
 
-    flash('Поздравляем! Вы успешно прошли регистрацию!', 'success')
+      flash('Поздравляем! Вы успешно прошли регистрацию!')
     return redirect(url_for('login'))
 
-
+    cur.close()
   return render_template('register.html', form=form)  
 
 # Login
@@ -103,7 +107,7 @@ def login():
     # Create cursor
     # con = sqlite3.connect('posterz.db')
     # con.row_factory = dict_factory
-    con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
     cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT count(*) FROM users WHERE username = %s"
     cur.execute(query, [username])
@@ -150,7 +154,7 @@ def dashboard():
 
   # con = sqlite3.connect('posterz.db')
   # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
   cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
 
   result = cur.execute("SELECT * FROM articles")
@@ -179,7 +183,7 @@ def add_article():
 
     # con = sqlite3.connect('posterz.db')
     # con.row_factory = dict_factory
-    con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
     cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
 
     # Execute
@@ -201,7 +205,7 @@ def edit_article(id):
 
   # con = sqlite3.connect('posterz.db')
   # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
   cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
 
   # Get article by id
@@ -220,7 +224,7 @@ def edit_article(id):
 
     # con = sqlite3.connect('posterz.db')
     # con.row_factory = dict_factory
-    con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
     cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
 
     # Execute
@@ -241,7 +245,7 @@ def edit_article(id):
 def delete_article(id):
   # con = sqlite3.connect('posterz.db')
   # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname='d45gbi4dkp8dai' user='liolxwkaxobbop' host='ec2-34-192-30-15.compute-1.amazonaws.com' password='3ab01bd061ea7bbd3465eda00357947126ca5bd275e51e26dd7831fd543325d8'")
+  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
   cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
 
   cur.execute("DELETE FROM articles WHERE id = %s", [id])
@@ -261,5 +265,5 @@ def logout():
   return redirect(url_for('login')) 
 
 if __name__ == "__main__":
-  app.secret_key = '133722g781coke33722800001526fshg234/*3452kgsooitnbsZ//hgs///3/2j'
+  app.secret_key = settings.SECRET_KEY
   app.run(debug=True) 
