@@ -5,10 +5,21 @@
 {% block content %}
     <div id="container">
         <h1 id="header-text">СТАТЬИ</h1>
-        <ul id="list-group">
+        <!-- <ul id="list-group">
             {% for article in articles %}
                 <a id="body-text" href="article/{{article.id}}"><li id="list-group-item">{{ article.title }}<br><small><b>Автор:</b> {{ article.author }}</small></li></a>
             {% endfor %}
-        </ul>
+        </ul> -->
+        <div id="flex-container">
+            {% for article in articles %}
+            <a href="article/{{article.id}}">
+            <div id="article">
+                <img src="https://www.helpscout.com/images/blog/2016/feb/release-notes-2016.png">
+                <h1 id="title">{{ article.title }}</h1>
+                <small>{{ article.author }}</small>
+            </div>
+            </a>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

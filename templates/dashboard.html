@@ -13,6 +13,7 @@
                 <th>Дата публикации</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
             
             {% for article in articles %}
@@ -30,6 +31,9 @@
                                 <input type="submit" value="Удалить" id="delete-button">
                             </form>
                         </td> 
+                        <td>
+                            <button type="button" id="link-button"><a href="article/{{article.id}}">Открыть</a></button>
+                        </td>
                     </tr>
                 {%  endif %}
             {% endfor %}

@@ -2,18 +2,10 @@ from flask import Flask, render_template, flash, redirect, url_for, session, req
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
-import psycopg2
-import psycopg2.extras
 import settings
-# import sqlite3
+import sqlite3
 
 app = Flask(__name__)
-
-# def dict_factory(cursor, row):
-#     d = {}
-#     for idx, col in enumerate(cursor.description):
-#         d[col[0]] = row[idx]
-#     return d
 
 @app.route('/')
 def index():
@@ -26,11 +18,9 @@ def about():
 @app.route('/articles')
 def articles():
 
-  # con = sqlite3.connect('posterz.db')
-  # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-  cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
   result = cur.execute("SELECT * FROM articles")
 
   articles = cur.fetchall()
@@ -45,11 +35,10 @@ def articles():
 
 @app.route('/article/<string:id>/')
 def article(id):
-  # con = sqlite3.connect('posterz.db')
-  # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-  cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-  result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  result = cur.execute("SELECT * FROM articles WHERE id = ?", [id])
 
   article = cur.fetchone()
   return render_template('article.html', article=article)
@@ -76,17 +65,16 @@ def register():
     password = sha256_crypt.encrypt(str(form.password.data))
 
     # Create cursor
-    # with sqlite3.connect('posterz.db') as con:
-    #   con.row_factory = dict_factory
-    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-    cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM users WHERE username = %s", [username])
-    user = cur.fetchone()
+    con = sqlite3.connect('posterz.db')
+    cur = con.cursor()
+    
+    cur.execute("SELECT COUNT(*) FROM users WHERE username = ?", [username])
+    user = cur.fetchone()[0]
 
-    if username == user['username']:
+    if user > 0:
       flash('Пользователь уже существует! Авторизуйтесь или выберите другое имя пользователя!')
     else:
-      cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(%s,%s,%s,%s,%s)", (first_name, last_name, username, email, password))
+      cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(?,?,?,?,?)", (first_name, last_name, username, email, password))
       # Commit to DB
       con.commit()
 
@@ -105,16 +93,16 @@ def login():
     password_c = request.form['password']
 
     # Create cursor
-    # con = sqlite3.connect('posterz.db')
-    # con.row_factory = dict_factory
-    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-    cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = "SELECT count(*) FROM users WHERE username = %s"
-    cur.execute(query, [username])
-    count = int(cur.fetchone()[0])
-    result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("SELECT COUNT(*) FROM users WHERE username = ?", [username])
+    count = cur.fetchone()[0]
+    
     if count > 0:
+      result = cur.execute("SELECT * FROM users WHERE username = ?", [username])
       data = cur.fetchone()
+      
       password = data['password']
 
       # Check if correct
@@ -124,7 +112,6 @@ def login():
 
         flash('Вы успешно авторизовались')
         return redirect(url_for('dashboard'))  
-        cur.close()
       else:
         error = 'Неверный логин или пароль!'
         return render_template('login.html', error=error) 
@@ -132,7 +119,7 @@ def login():
     else:
       error = 'Пользователь не найден'
       return render_template('login.html', error=error) 
-        
+    cur.close()    
 
   return render_template('login.html')
 
@@ -152,10 +139,9 @@ def is_logged_in(f):
 @is_logged_in
 def dashboard():
 
-  # con = sqlite3.connect('posterz.db')
-  # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-  cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
 
   result = cur.execute("SELECT * FROM articles")
 
@@ -181,13 +167,13 @@ def add_article():
     title = form.title.data
     body = form.body.data
 
-    # con = sqlite3.connect('posterz.db')
-    # con.row_factory = dict_factory
-    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-    cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    
 
     # Execute
-    cur.execute("INSERT INTO articles(title, body, author) VALUES(%s, %s, %s)",(title, body, session['username']))
+    cur.execute("INSERT INTO articles(title, body, author) VALUES(?, ?, ?)",(title, body, session['username']))
     
     con.commit()
     cur.close()
@@ -203,11 +189,10 @@ def add_article():
 @is_logged_in
 def edit_article(id):
 
-  # con = sqlite3.connect('posterz.db')
-  # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-  cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  
   # Get article by id
   result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
 
@@ -222,13 +207,13 @@ def edit_article(id):
     title = request.form['title']
     body = request.form['body']
 
-    # con = sqlite3.connect('posterz.db')
-    # con.row_factory = dict_factory
-    con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-    cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    
 
     # Execute
-    cur.execute("UPDATE articles SET title=%s, body=%s WHERE id = %s", (title, body, id))
+    cur.execute("UPDATE articles SET title=?, body=? WHERE id = ?", (title, body, id))
     
     con.commit()
     cur.close()
@@ -243,12 +228,10 @@ def edit_article(id):
 @app.route('/delete_article/<string:id>', methods=['POST'])
 @is_logged_in
 def delete_article(id):
-  # con = sqlite3.connect('posterz.db')
-  # con.row_factory = dict_factory
-  con = psycopg2.connect("dbname=" + "'" + settings.DB_NAME + "'" + "user=" + "'" + settings.DB_USER + "'" + "host=" + "'" + settings.DB_HOST + "'" +  "password=" + "'" + settings.DB_PASSWORD + "'")
-  cur = con.cursor(cursor_factory = psycopg2.extras.DictCursor)
-
-  cur.execute("DELETE FROM articles WHERE id = %s", [id])
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  cur.execute("DELETE FROM articles WHERE id = ?", [id])
 
   con.commit()
   cur.close()
