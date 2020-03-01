@@ -135,7 +135,7 @@ def is_logged_in(f):
   return wrap    
 
 # Dashboard
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @is_logged_in
 def dashboard():
 
