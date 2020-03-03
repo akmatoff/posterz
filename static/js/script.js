@@ -1,13 +1,10 @@
-// const deleteForm = document.getElementById('delete-form');
+const deleteForm = document.getElementById('delete-form');
 
-// function deleteArticleWarning() {
-//     var deleteWarning = confirm("Вы действительно хотите удалить статью?");
+// Confirm article deletion
+function deleteArticleWarning() {
+    var deleteWarning = confirm("Вы действительно хотите удалить статью?");
 
-//     if (deleteArticleWarning === true) {
-//         return true;
-//     } else {
-        
-//         return false;
-//     }
-
-// }
+    if (deleteWarning === false) {
+        deleteForm.removeAttribute('action');
+    }
+}

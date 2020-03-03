@@ -56,6 +56,7 @@ header {
   padding: 5px 15px;
   transition: 0.3s ease;
   display: block;
+  border-radius: 15px;
 }
 
 #navbar a:hover, #authorize a:hover {
@@ -293,7 +294,7 @@ th, td {
 
 small {
   color: #828282;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 100;
   text-align: center;
 }
@@ -358,7 +359,8 @@ hr {
 #article {
   background-color: #e6e6e6;
   width: 400px;
-  height: 320px;
+  min-height: 320px;
+  max-height: 350px;
   margin: 10px;
   cursor: pointer;
   box-shadow: 2px 3px 3px 1px rgba(60, 60, 60, 0.2);
@@ -384,6 +386,19 @@ hr {
   padding: 20px;
   display: flex;
   flex-direction: column;
+}
+
+#message {
+  background-color: #f56962;
+  position: relative;
+  margin-top: 20px;
+  font-size: 20px;
+  border-radius: 15px;
+  padding: 5px;
+  min-width: 250px;
+  color: white;
+  display: flex;
+  justify-content: center;
 }
 
 footer {
@@ -458,21 +473,20 @@ footer {
 
   #article {
     width: 100%;
-    height: 100%;
-    margin: 20px 0;
+    margin: 40px 0;
   }
 
   #article-body img {
     max-height: 20vh;
   }
 
-  #list-group, #flex-container, #article-form, #article-form-group, #article-container {
+  #list-group, #flex-container, #article-form, #article-form-group, #article-container, #single-article-container {
     width: 100%;
   }
 
   #flex-container {
     min-height: 100vh;
-    flex-direction: column-reverse;
+    min-width: 100%;
   }
 
   #article-container {

@@ -1,20 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {% from 'formhelpers.html' import render_field %}
-    <div id="article-container">
-        <h1 id="header-text">Редактирование статьи</h1>
-        <form method="POST" action="" id="article-form">
-            <div id="article-form-group">
-                {{ render_field(form.cover, id="article-form-field") }}
-            </div>
-            <div id="article-form-group">
-                {{ render_field(form.title, id="article-form-field") }}
-            </div>
-            <div id="article-form-group">
-                {{ render_field(form.body, id="editor") }}
-            </div>
-            <p><input id="submit-button" type="submit" value="Опубликовать"></p>
-        </form>
+    <div id="container">
+        <div id="article-container">
+            <h1 id="header-text">Добавление статьи</h1>
+            <form method="POST" action="" id="article-form">
+                <div id="article-form-group">
+                  <label for="cover">URL картинки</label>
+                  <input type="text" name="cover" id="article-form-field" value="{{cover_db}}">
+                </div>
+                <div id="article-form-group">
+                  <label for="title">Название</label>
+                  <input type="text" name="title" id="article-form-field" value="{{title_db}}">
+                </div>
+                <div id="article-form-group">
+                  <label for="body">Статья</label>
+                  <textarea type="text" name="body" id="editor" required>{{body_db}}</textarea>
+                </div>
+                <p><input id="submit-button" type="submit" value="Опубликовать"></p>
+            </form>
+        </div>
     </div>
 {% endblock %}
