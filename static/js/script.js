@@ -2,11 +2,7 @@ const deleteForm = document.getElementById('delete-form');
 const dropdownContent = document.getElementById('dropdown-content');
 const dropdownButton = document.getElementById('dropdown-button');
 
-
-if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-  dropdownButton.addEventListener('touchstart', showDropdownContent)
-}
-dropdownButton.addEventListener('click', showDropdownContent)
+dropdownButton.addEventListener('click', showDropdownContent);
 
 // Confirm article deletion
 function deleteArticleWarning() {
@@ -19,17 +15,9 @@ function deleteArticleWarning() {
 
 // Show dropdown
 function showDropdownContent() {
-  if (dropdownContent.style.display === 'none') {
-    dropdownContent.style.display = 'flex';
-  } else {
+  if (dropdownContent.style.display === 'flex') {
     dropdownContent.style.display = 'none';
+  } else {
+    dropdownContent.style.display = 'flex';
   }
 }
-
-function closeDropdown() {
-  dropdownContent.style.display = 'none';
-  console.log('pressed');
-}
-
-// document.addEventListener('mousedown', closeDropdown)
-
