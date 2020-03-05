@@ -49,7 +49,8 @@ def register():
     last_name = request.form['last-name']
     username = request.form['username']
     email = request.form['email']
-    password = sha256_crypt.encrypt(str(request.form['password']))
+    password = request.form['password']
+    password_crypt = sha256_crypt.encrypt(str(request.form['password']))
     confirm = request.form['confirm']
 
     if confirm == password:
@@ -63,14 +64,14 @@ def register():
       if user > 0:
         flash('Пользователь уже существует! Авторизуйтесь или выберите другое имя пользователя!')
       else:
-        cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(?,?,?,?,?)", (first_name, last_name, username, email, password))
+        cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(?,?,?,?,?)", (first_name, last_name, username, email, password_crypt))
         # Commit to DB
         con.commit()
 
         flash('Поздравляем! Вы успешно прошли регистрацию!')
     else:  
       error = 'Пароли не совпадают, попробуйте еще раз!'
-      return render_template('login.html', error=error)
+      return render_template('register.html', error=error)
 
     return redirect(url_for('login'))
 
