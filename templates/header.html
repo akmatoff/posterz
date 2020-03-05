@@ -6,6 +6,22 @@
     <a href="/articles">СТАТЬИ</a>
   </div>
 
+  <div id="dropdown">
+    <button id="dropdown-button"><i class="fas fa-bars"></i></button>
+    <div id="dropdown-content">
+      <a href="/">ГЛАВНАЯ</a>
+      <a href="/about">О САЙТЕ</a>
+      <a href="/articles">СТАТЬИ</a>
+      {% if session.logged_in %}
+    <a href="/dashboard">МОИ СТАТЬИ</a>
+    <a href="/logout">ВЫЙТИ</a>
+    {% else %}
+    <a href="/login">ЛОГИН</a>
+    <a href="/register">РЕГИСТРАЦИЯ</a>
+    {% endif %}
+    </div>
+  </div>
+
   <div id="authorize">
     {% if session.logged_in %}
     <a href="/dashboard">МОИ СТАТЬИ</a>
