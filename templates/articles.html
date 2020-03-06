@@ -15,8 +15,10 @@
             <a href="article/{{article.id}}">
             <div id="article">
                 <img src="{{article.cover}}">
-                <h1 id="title">{{ article.title }}</h1>
-                <small>{{ article.author }}</small>
+                <div id="article-info">
+                    <h1 id="title">{{ article.title }}</h1>
+                    <small>{{ article.author }}</small>
+                </div>
             </div>
             </a>
             {% endfor %}

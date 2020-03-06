@@ -2,8 +2,15 @@
   <div id="logo"><a href="/">Posterz</a></div>
   <div id="navbar">
     <a href="/">ГЛАВНАЯ</a>
-    <a href="/about">О САЙТЕ</a>
+    <a href="/#about-container">О САЙТЕ</a>
     <a href="/articles">СТАТЬИ</a>
+    {% if session.logged_in %}
+    <a href="/dashboard">МОИ СТАТЬИ</a>
+    <a href="/logout">ВЫЙТИ</a>
+    {% else %}
+    <a href="/login">ВОЙТИ</a>
+    <a href="/register">РЕГИСТРАЦИЯ</a>
+    {% endif %}
   </div>
 
   <div id="dropdown">
@@ -16,20 +23,17 @@
     <a href="/dashboard">МОИ СТАТЬИ</a>
     <a href="/logout">ВЫЙТИ</a>
     {% else %}
-    <a href="/login">ЛОГИН</a>
+    <a href="/login">ВОЙТИ</a>
     <a href="/register">РЕГИСТРАЦИЯ</a>
     {% endif %}
     </div>
   </div>
 
-  <div id="authorize">
-    {% if session.logged_in %}
-    <a href="/dashboard">МОИ СТАТЬИ</a>
-    <a href="/logout">ВЫЙТИ</a>
-    {% else %}
-    <a href="/login">ЛОГИН</a>
-    <a href="/register">РЕГИСТРАЦИЯ</a>
-    {% endif %}
+  <!-- <div id="authorize">
     
+  </div> -->
+
+  <div id="search-bar">
+    <i class="fas fa-search"></i>
   </div>
 </header>
