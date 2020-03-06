@@ -5,8 +5,9 @@
 {% block content %}
     <div id="container">
         <div id="container-inner">
-            <h1 id="header-text">Регистрация</h1>
-            <form method="POST" action="" id="form">
+          <div id="form-container">
+          <h1 id="header-text">Регистрация</h1>
+          <form method="POST" action="" id="form">
                 <div class="form-group">
                   <label for="first-name" id="label">Имя</label>
                   <input type="text" name="first-name" id="form-field" required>
@@ -33,6 +34,7 @@
                 </div>
                 <p><input type="submit" id="submit-button" value="Отправить"></p>
             </form>
+          </div>
         </div>
     </div>
 {% endblock %}
