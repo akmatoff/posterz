@@ -10,11 +10,11 @@
                 <form method="POST" action="" id="form">
                     <div class="form-group">
                         <label id="label">Имя пользователя</label>
-                        <input type="text" name="username" id="form-field" value="{{request.form.username}}">
+                        <input type="text" name="username" id="form-field" value="{{request.form.username}}" required>
                     </div>
                     <div class="form-group">
                         <label id="label">Пароль</label>
-                        <input type="password" name="password" id="form-field" value="{{request.form.password}}" autocomplete="off">
+                        <input type="password" name="password" id="form-field" value="{{request.form.password}}" autocomplete="off" required>
                     </div>
                     <button type="submit" id="submit-button">Отправить</button>
                 </form>
