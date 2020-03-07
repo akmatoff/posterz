@@ -155,6 +155,7 @@ header {
   background-attachment: fixed;
   filter: blur(7px);
   transform: scale(1.05);
+  -webkit-transform: scale(1.05);
 }
 
 #container {
