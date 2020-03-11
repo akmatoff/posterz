@@ -10,12 +10,13 @@
           <form method="POST" action="" id="form">
             <div id="profile-pic-container">
               <label for="profile-pic" id="profile-pic-label">
-                Аватар
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/5af1d193531749.5e6767db5edf2.png" id="profile-img">
-                <i class="fas fa-camera"></i>
+                <span>Аватар</span>
+                <img src="https://i.stack.imgur.com/34AD2.jpg" id="profile-img">
+                <div id="profile-img-hover"><span>Выбрать фото</span></div>
+                <i class="fas fa-camera" data-toggle="tooltip" data-placement="top" title="Выбрать аватар"></i>
                 <button type="button" onclick="setPic()">Подтвердить</button>
               </label>
-              <input type="file" name="profile-pic" id="profile-pic">
+              <input type="file" name="profile-pic" id="profile-pic" accept="image/*">
             </div>
             <div>
                 <div class="form-group">

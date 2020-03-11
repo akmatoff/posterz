@@ -1,7 +1,7 @@
-const deleteForm = document.getElementById('delete-form');
-const dropdownContent = document.getElementById('dropdown-content');
-const dropdownButton = document.getElementById('dropdown-button');
-const background = document.getElementById('background');
+const deleteForm = document.querySelector('#delete-form');
+const dropdownContent = document.querySelector('#dropdown-content');
+const dropdownButton = document.querySelector('#dropdown-button');
+const background = document.querySelector('#background');
 const profilePicInput = document.querySelector('#profile-pic');
 const profilePic = document.querySelector('#profile-img');
 
