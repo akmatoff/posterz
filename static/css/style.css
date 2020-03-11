@@ -277,6 +277,37 @@ header {
   padding: 60px;
   border-radius: 15px;
   box-shadow: 2px 6px 7px rgba(60, 60, 60, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+#profile-pic-label {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+#profile-pic-container {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}  
+
+#profile-img {
+  width: 90%;
+  height: 90%;
+}
+
+#profile-pic-container i {
+  font-size: 30px;
+  margin: 10px auto;
+}
+
+#profile-pic-container input {
+  display: none;
 }
 
 input {

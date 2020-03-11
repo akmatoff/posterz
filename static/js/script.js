@@ -2,6 +2,8 @@ const deleteForm = document.getElementById('delete-form');
 const dropdownContent = document.getElementById('dropdown-content');
 const dropdownButton = document.getElementById('dropdown-button');
 const background = document.getElementById('background');
+const profilePicInput = document.querySelector('#profile-pic');
+const profilePic = document.querySelector('#profile-img');
 
 // Confirm article deletion
 function deleteArticleWarning() {
@@ -19,4 +21,10 @@ function showDropdownContent() {
   } else {
     dropdownContent.style.display = 'flex';
   }
+}
+
+function setPic() {
+  profilePic.src = profilePicInput.value;
+  console.log("Pic changed!");
+  console.log(profilePicInput.value);
 }
