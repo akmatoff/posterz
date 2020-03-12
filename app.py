@@ -24,13 +24,25 @@ def save_pic(form_pic):
 
   return pic_filename
 
+def sendProfilePic():
+  if 'username' in session:
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users WHERE username=?", [session['username']])
+    users = cur.fetchone()
+
+    profile_pic = users['profile_pic']
+
+    return profile_pic  
+
 @app.route('/')
 def index():
-  return render_template('home.html')
+  return render_template('home.html', profile_pic=sendProfilePic())
 
 @app.route('/about')
 def about():
-  return render_template('home.html')  
+  return render_template('home.html', profile_pic=sendProfilePic())  
 
 @app.route('/articles')
 def articles():
@@ -43,10 +55,10 @@ def articles():
   articles = cur.fetchall()
 
   if len(articles) > 0:
-    return render_template('articles.html', articles=articles)
+    return render_template('articles.html', articles=articles, profile_pic=sendProfilePic())
   else:
     msg = "Статьи не найдены"
-    return render_template('articles.html', msg=msg)
+    return render_template('articles.html', msg=msg, profile_pic=sendProfilePic())
 
   cur.close()  
 
@@ -58,7 +70,7 @@ def article(id):
   cur.execute("SELECT * FROM articles WHERE id = ?", [id])
 
   article = cur.fetchone()
-  return render_template('article.html', article=article)
+  return render_template('article.html', article=article, profile_pic=sendProfilePic())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -94,12 +106,12 @@ def register():
         flash('Поздравляем! Вы успешно прошли регистрацию!')
     else:  
       error = 'Пароли не совпадают, попробуйте еще раз!'
-      return render_template('register.html', error=error)
+      return render_template('register.html', error=error, profile_pic=sendProfilePic())
 
     return redirect(url_for('login'))
 
     cur.close()
-  return render_template('register.html')  
+  return render_template('register.html', profile_pic=sendProfilePic())  
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
@@ -164,14 +176,11 @@ def dashboard():
 
   articles = cur.fetchall()
 
-  cur.execute("SELECT profile_pic FROM users WHERE username=?", [session['username']])
-  profile_pic = cur.fetchone()
-
   if len(articles) > 0:
-    return render_template('dashboard.html', articles=articles, profile_pic=profile_pic)
+    return render_template('dashboard.html', articles=articles, profile_pic=sendProfilePic())
   else:  
     msg = 'У вас еще нет статьей.'
-    return render_template('dashboard.html', msg=msg)  
+    return render_template('dashboard.html', msg=msg, profile_pic=sendProfilePic())  
 
 # Add Article
 @app.route('/add_article', methods=['GET', 'POST'])
@@ -196,7 +205,7 @@ def add_article():
 
     return redirect(url_for('dashboard'))
 
-  return render_template('add_article.html') 
+  return render_template('add_article.html', profile_pic=sendProfilePic()) 
 
 # Edit article
 @app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
@@ -235,7 +244,7 @@ def edit_article(id):
 
     return redirect(url_for('dashboard'))
 
-  return render_template('edit_article.html', cover_db=cover_db, title_db=title_db, body_db=body_db)   
+  return render_template('edit_article.html', cover_db=cover_db, title_db=title_db, body_db=body_db, profile_pic=sendProfilePic())   
 
 # Delete article
 @app.route('/delete_article/<string:id>', methods=['POST'])

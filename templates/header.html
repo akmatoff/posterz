@@ -33,6 +33,15 @@
     
   </div> -->
 
+  {% if session.logged_in %}
+    <div id="header-profile-pic">
+      <img src="static/profile_pics/{{profile_pic}}">
+    </div>
+    <!-- <div id="profile-dropdown-content">
+        
+    </div> -->
+  {% endif %}
+
   <div id="search-bar">
     <i class="fas fa-search"></i>
   </div>
