@@ -5,16 +5,16 @@
 {% block content %}
     <div id="container">
         <div id="container-inner">
+        <form method="POST" action="" id="form" enctype="multipart/form-data">
           <div id="form-container">
           <h1 id="header-text">Регистрация</h1>
-          <form method="POST" action="" id="form">
             <div id="profile-pic-container">
               <label for="profile-pic" id="profile-pic-label">
                 <span>Аватар</span>
                 <img src="https://i.stack.imgur.com/34AD2.jpg" id="profile-img">
                 <div id="profile-img-hover"><span>Выбрать фото</span></div>
                 <i class="fas fa-camera" data-toggle="tooltip" data-placement="top" title="Выбрать аватар"></i>
-                <button type="button" onclick="setPic()">Подтвердить</button>
+                <!-- <button type="button" onclick="setPic()">Подтвердить</button> -->
               </label>
               <input type="file" name="profile-pic" id="profile-pic" accept="image/*">
             </div>

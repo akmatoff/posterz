@@ -3,8 +3,26 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 import settings
 import sqlite3
+import os
+import secrets
 
 app = Flask(__name__)
+
+# con = sqlite3.connect('posterz.db')
+# cur = con.cursor()
+# cur.execute()
+# con.commit()
+# cur.close()
+
+# Save picture from user input
+def save_pic(form_pic):
+  random_filename = secrets.token_hex(8)
+  _, file_extension = os.path.splitext(form_pic.filename)
+  pic_filename = random_filename + file_extension
+  pic_path = os.path.join(app.root_path, 'static/profile_pics', pic_filename)
+  form_pic.save(pic_path)
+
+  return pic_filename
 
 @app.route('/')
 def index():
@@ -53,6 +71,10 @@ def register():
     password_crypt = sha256_crypt.encrypt(str(request.form['password']))
     confirm = request.form['confirm']
 
+    pic_file = request.files.get('profile-pic')
+
+    profile_pic = save_pic(pic_file)
+
     if confirm == password:
       # Create cursor
       con = sqlite3.connect('posterz.db')
@@ -64,7 +86,8 @@ def register():
       if user > 0:
         flash('Пользователь уже существует! Авторизуйтесь или выберите другое имя пользователя!')
       else:
-        cur.execute("INSERT INTO users(first_name, last_name, username, email, password) VALUES(?,?,?,?,?)", (first_name, last_name, username, email, password_crypt))
+        cur.execute("INSERT INTO users(first_name, last_name, username, email, password, profile_pic) VALUES(?,?,?,?,?,?)", (first_name, last_name, username, email, password_crypt, profile_pic))
+
         # Commit to DB
         con.commit()
 
@@ -141,8 +164,11 @@ def dashboard():
 
   articles = cur.fetchall()
 
+  cur.execute("SELECT profile_pic FROM users WHERE username=?", [session['username']])
+  profile_pic = cur.fetchone()
+
   if len(articles) > 0:
-    return render_template('dashboard.html', articles=articles)
+    return render_template('dashboard.html', articles=articles, profile_pic=profile_pic)
   else:  
     msg = 'У вас еще нет статьей.'
     return render_template('dashboard.html', msg=msg)  
