@@ -28,3 +28,4 @@ function setPic() {
   console.log("Pic changed!");
   console.log(profilePicInput.value);
 }
+

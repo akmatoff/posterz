@@ -6,7 +6,7 @@
     <a href="/articles">СТАТЬИ</a>
     {% if session.logged_in %}
     <a href="/dashboard">МОИ СТАТЬИ</a>
-    <a href="/logout">ВЫЙТИ</a>
+    <!-- <a href="/logout">ВЫЙТИ</a> -->
     {% else %}
     <a href="/login">ВОЙТИ</a>
     <a href="/register">РЕГИСТРАЦИЯ</a>
@@ -34,12 +34,23 @@
   </div> -->
 
   {% if session.logged_in %}
+  <div id="profile-dropdown">
     <div id="header-profile-pic">
       <img src="static/profile_pics/{{profile_pic}}">
     </div>
-    <!-- <div id="profile-dropdown-content">
-        
-    </div> -->
+    <div id="profile-dropdown-content">
+      <div id="profile-dropdown-info">
+        <img src="static/profile_pics/{{profile_pic}}">
+        <div>
+          <h1 id="profile-info-header">{{session.username}}</h1>
+          <small>{{session.email}}</small>
+        </div>
+      </div>
+      <a href="#">МОЙ ПРОФИЛЬ</a>
+      <a href="/dashboard">МОИ СТАТЬИ</a>
+      <a href="/logout">ВЫЙТИ</a>
+    </div>
+  </div>
   {% endif %}
 
   <div id="search-bar">

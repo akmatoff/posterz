@@ -138,6 +138,7 @@ def login():
       if sha256_crypt.verify(password, password_db):
         session['logged_in'] = True
         session['username'] = username
+        session['email'] = data['email']
 
         flash('Вы успешно авторизовались')
         return redirect(url_for('dashboard'))  
