@@ -5,7 +5,7 @@
     <a href="/#about-container">О САЙТЕ</a>
     <a href="/articles">СТАТЬИ</a>
     {% if session.logged_in %}
-    <a href="/dashboard">МОИ СТАТЬИ</a>
+    <!-- <a href="/dashboard">МОИ СТАТЬИ</a> -->
     <!-- <a href="/logout">ВЫЙТИ</a> -->
     {% else %}
     <a href="/login">ВОЙТИ</a>
@@ -42,7 +42,9 @@
     </div>
     <div id="profile-dropdown-content">
       <div id="profile-dropdown-info">
+        <a href="/profile">
         <img src="{{url_for('static', filename='profile_pics/')}}/{{session.profile_pic}}">
+        </a>
         <div>
           <h1 id="profile-info-header">{{session.username}}</h1>
           <small>{{session.email}}</small>
