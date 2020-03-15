@@ -1,3 +1,4 @@
+const header = document.querySelector('header');
 const deleteForm = document.querySelector('#delete-form');
 const dropdownContent = document.querySelector('#dropdown-content');
 const dropdownButton = document.querySelector('#dropdown-button');
@@ -29,3 +30,14 @@ function setPic() {
   console.log(profilePicInput.value);
 }
 
+// Hide header on scroll
+var scrollPos = window.pageYOffset;
+window.onscroll = () => {
+  var currentScrollPos = window.pageYOffset;
+  if (scrollPos > currentScrollPos) {
+    header.style.top = "0";
+  } else {
+    header.style.top = "-150px";
+  }
+  scrollPos = currentScrollPos;
+}
