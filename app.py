@@ -1,4 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from passlib.hash import sha256_crypt
 from functools import wraps
 import settings
@@ -7,9 +9,19 @@ import os
 
 app = Flask(__name__)
 
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = settings.MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = settings.MAIL_PASSWORD
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+secret = URLSafeTimedSerializer(os.getenv('SECRET_KEY'))
+mail = Mail(app)
+
 # con = sqlite3.connect('posterz.db')
 # cur = con.cursor()
-# cur.execute("DELETE FROM users")
+# cur.execute("")
 # con.commit()
 # cur.close()
 
@@ -25,18 +37,6 @@ def save_pic(form_pic):
   form_pic.save(pic_path)
 
   return pic_filename
-
-# def sendProfilePic():
-#   if 'username' in session:
-#     con = sqlite3.connect('posterz.db')
-#     con.row_factory = sqlite3.Row
-#     cur = con.cursor()
-#     cur.execute("SELECT * FROM users WHERE username=?", [session['username']])
-#     users = cur.fetchone()
-
-#     profile_pic = users['profile_pic']
-
-#     return profile_pic  
 
 @app.route('/')
 def index():
@@ -89,6 +89,21 @@ def register():
 
     profile_pic = save_pic(pic_file)
 
+    token = secret.dumps(email, salt="email-confirm")
+
+    msg = Message('Подтверждение почты', sender="noreply@posterz.com", recipients=[email])
+
+    link = url_for('confirm_email', token=token, _external=True)
+
+    msg.body = """
+    Подтвердите почту по данной ссылке:
+    {}
+
+    Если это не вы, то проигнорируйте данное сообщение.
+    """.format(link)
+
+    mail.send(msg)
+
     if confirm == password:
       # Create cursor
       con = sqlite3.connect('posterz.db')
@@ -100,7 +115,7 @@ def register():
       if user > 0:
         flash('Пользователь уже существует! Авторизуйтесь или выберите другое имя пользователя!')
       else:
-        cur.execute("INSERT INTO users(first_name, last_name, username, email, password, profile_pic) VALUES(?,?,?,?,?,?)", (first_name, last_name, username, email, password_crypt, profile_pic))
+        cur.execute("INSERT INTO users(first_name, last_name, username, email, password, profile_pic, active) VALUES(?,?,?,?,?,?, 0)", (first_name, last_name, username, email, password_crypt, profile_pic))
 
         # Commit to DB
         con.commit()
@@ -110,10 +125,30 @@ def register():
       error = 'Пароли не совпадают, попробуйте еще раз!'
       return render_template('register.html', error=error)
 
+    flash('На вашу почту отправлена ссылка для подтверждения')
     return redirect(url_for('login'))
 
     cur.close()
   return render_template('register.html')  
+
+# Email confirmation page
+@app.route('/confirm_email/<token>')  
+def confirm_email(token):
+  try:
+    email = secret.loads(token, salt="email-confirm", max_age=1200)
+    
+    con = sqlite3.connect('posterz.db')
+    cur = con.cursor()
+    cur.execute("UPDATE users SET active=1 WHERE email=?", [email])
+    con.commit()
+    cur.close()
+
+  except SignatureExpired:
+    error = 'Ссылка недействительна или просрочена!'
+    return redirect(url_for('register', error=error))
+
+  flash('Вы успешно активировали аккаунт!')
+  return render_template('dashboard.html')  
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
@@ -136,22 +171,28 @@ def login():
       
       password_db = data['password']
 
-      # Check if correct
-      if sha256_crypt.verify(password, password_db):
-        session['logged_in'] = True
-        session['username'] = username
-        session['email'] = data['email']
-        session['profile_pic'] = data['profile_pic']
+      if data['active'] == 1:
 
-        flash('Вы успешно авторизовались')
-        return redirect(url_for('dashboard'))  
+        # Check if correct
+        if sha256_crypt.verify(password, password_db):
+          session['logged_in'] = True
+          session['username'] = username
+          session['email'] = data['email']
+          session['profile_pic'] = data['profile_pic']
+
+          flash('Вы успешно авторизовались')
+          return redirect(url_for('dashboard'))  
+        else:
+          error = 'Неверный логин или пароль!'
+          return render_template('login.html', error=error)
       else:
-        error = 'Неверный логин или пароль!'
-        return render_template('login.html', error=error) 
+        flash('Ваш аккаунт не активирован! Сначала подтвердите почту!')
+        return render_template('register.html')     
 
     else:
       error = 'Пользователь не найден'
       return render_template('login.html', error=error) 
+ 
     cur.close()    
 
   return render_template('login.html')
