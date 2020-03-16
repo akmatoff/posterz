@@ -213,8 +213,11 @@ def is_logged_in(f):
 @is_logged_in
 def profile():
   con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
   cur = con.cursor()
   cur.execute("SELECT * FROM users WHERE username = ?", [session['username']])
+
+  user = cur.fetchone()
 
   if request.method == 'POST':
     pic_file = request.files.get('profile-pic')
@@ -227,7 +230,7 @@ def profile():
     flash('Ваша фотография успешно обновлена!')
     
     return redirect(url_for('profile'))
-  return render_template('profile.html')
+  return render_template('profile.html', user=user)
 
 # Dashboard
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -238,7 +241,7 @@ def dashboard():
   con.row_factory = sqlite3.Row
   cur = con.cursor()
 
-  cur.execute("SELECT * FROM articles")
+  cur.execute("SELECT * FROM articles WHERE author = ?", [session['username']])
 
   articles = cur.fetchall()
 

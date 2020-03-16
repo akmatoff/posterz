@@ -17,8 +17,6 @@
             </tr>
             
             {% for article in articles %}
-                {% if session['username'] == article.author %}
-
                     <tr>
                         <td>{{article.id}}</td>
                         <td>{{article.title}}</td>
@@ -35,7 +33,6 @@
                             <button type="button" id="link-button"><a href="article/{{article.id}}">Открыть</a></button>
                         </td>
                     </tr>
-                {%  endif %}
             {% endfor %}
         </table>
     </div>
