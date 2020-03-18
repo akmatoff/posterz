@@ -183,7 +183,6 @@ header {
 }
 
 #dropdown-button {
-  /* background-color: #d9d9d9; */
   background: none;
   border: none;
   width: 30px;
@@ -194,7 +193,7 @@ header {
 
 #dropdown-button i {
   font-size: 40px;
-  color: #404040;
+  color: #f1f1f1;
 }
 
 #dropdown-content {
@@ -865,7 +864,7 @@ footer {
   #container {
     width: 100%;
     max-width: 100%;
-    padding: 10px;
+    padding: 120px 10px;
     text-align: center;
   }
 
@@ -914,7 +913,7 @@ footer {
 
   footer {
     height: 100%;
-    width: 95%;
+    width: 100%;
   }
 
 }
