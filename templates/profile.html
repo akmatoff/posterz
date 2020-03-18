@@ -3,39 +3,40 @@
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-
-    <div id="single-article-container">
-        <div id="profile-info-container">
-            <div id="profile-dropdown-info">
-                <img src="{{url_for('static', filename='profile_pics/')}}/{{session.profile_pic}}">
-                <div>
-                  <h1 id="profile-info-header">{{session.username}}</h1>
-                  <small>{{session.email}}</small>
-                </div>
-            </div>
-
-            <h1 id="header-text">Информация об аккаунте</h1>
-            <div>
-                <h1 id="info-header">Имя пользователя</h1>
-                {{session['username']}}
-                <h1 id="info-header">Почта</h1>
-                {{session['email']}}
-                <h1 id="info-header">Дата регистрации</h1>
-                {{user['reg_date']}}
-                <h1 id="info-header">Обновить аватар</h1>
-
-                <form method="POST" enctype="multipart/form-data">
-                    <div id="profile-pic-container" style="justify-content: left;">
-                        <label for="profile-pic" id="profile-pic-label">
-                        <img src="https://i.stack.imgur.com/34AD2.jpg" id="profile-img">
-                        <div id="profile-img-hover" style="margin-top: 0;"><span>Выбрать фото</span></div>
-                        <i class="fas fa-camera" data-toggle="tooltip" data-placement="top" title="Выбрать аватар"></i>      
-                        </label>
-                        <input type="file" name="profile-pic" id="profile-pic" accept="image/*">
+    <div id="container">
+        <div id="single-article-container">
+            <div id="profile-info-container">
+                <div id="profile-dropdown-info">
+                    <img src="{{url_for('static', filename='profile_pics/')}}/{{session.profile_pic}}">
+                    <div>
+                    <h1 id="profile-info-header">{{session.username}}</h1>
+                    <small>{{session.email}}</small>
                     </div>
+                </div>
 
-                    <input type="submit" value="Подтвердить" id="submit-button">
-                </form>
+                <h1 id="header-text">Информация об аккаунте</h1>
+                <div>
+                    <h1 id="info-header">Имя пользователя</h1>
+                    {{session['username']}}
+                    <h1 id="info-header">Почта</h1>
+                    {{session['email']}}
+                    <h1 id="info-header">Дата регистрации</h1>
+                    {{user['reg_date']}}
+                    <h1 id="info-header">Обновить аватар</h1>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <div id="profile-pic-container" style="justify-content: left;">
+                            <label for="profile-pic" id="profile-pic-label">
+                            <img src="https://i.stack.imgur.com/34AD2.jpg" id="profile-img">
+                            <div id="profile-img-hover" style="margin-top: 0;"><span>Выбрать фото</span></div>
+                            <i class="fas fa-camera" data-toggle="tooltip" data-placement="top" title="Выбрать аватар"></i>      
+                            </label>
+                            <input type="file" name="profile-pic" id="profile-pic" accept="image/*">
+                        </div>
+
+                        <input type="submit" value="Подтвердить" id="submit-button">
+                    </form>
+                </div>
             </div>
         </div>
     </div>

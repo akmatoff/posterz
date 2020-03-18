@@ -20,7 +20,7 @@
 
 body {
   margin: 0;
-  padding: 150px 0;
+  padding: 0;
   font-family: San Francisco;
   display: flex;
   align-items: center;
@@ -35,8 +35,8 @@ header {
   z-index: 1;
   top: 0;
   width: 100%;
-  height: 120px;
-  background-color: #121212;
+  height: 100px;
+  background-color: #3e5b7c;
   display: flex;
   justify-content: space-between;
   padding: 0 80px;
@@ -48,7 +48,7 @@ header {
 
 #logo a {
   font-family: Signatrue;
-  font-size: 30px;
+  font-size: 26px;
   color: #f1f1f1;
   letter-spacing: 3px;
   text-decoration: none;
@@ -67,11 +67,11 @@ header {
   width: 50%;
 }
 
-#navbar a, #authorize a {
+#navbar a, #authorize {
   color: #f1f1f1;
   text-decoration: none;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   padding: 5px 20px;
   transition: 0.4s ease;
   display: block;
@@ -88,7 +88,7 @@ header {
 #header-profile-pic {
   width: 45px;
   height: 45px;
-  border-radius: 120px;
+  border-radius: 300px;
   padding: 5px;
   /* border: 2px solid #404040; */
   display: flex;
@@ -99,7 +99,7 @@ header {
 #header-profile-pic img {
   width: 40px;
   height: 40px;
-  border-radius: 120px;
+  border-radius: 300px;
 }
 
 #profile-dropdown {
@@ -140,7 +140,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 20px;
   height: 120px;
   border-bottom: #d9d9d9 solid 1px;
 }
@@ -160,8 +160,8 @@ header {
 #profile-info-header {
   font-weight: bold;
   font-size: 22px;
-  margin-left: 20px;
   margin-bottom: 0;
+  margin-left: 20px;
 }
 
 #search-bar {
@@ -232,21 +232,6 @@ header {
   align-items: center;
 }
 
-#background {
-  position: fixed;
-  z-index: -1;
-  width: 100%;
-  min-height: 100vh;
-  background-image: url('../img/bg2.jpeg');
-  background-size: cover;
-  background-attachment: fixed;
-  filter: blur(7px);
-  transform: scale(1.05);
-  animation-name: open;
-  animation-duration: 0.7s;
-  animation-iteration-count: 1;
-}
-
 @keyframes open {
   from {filter: blur(0px);}
   to {filter: blur(7px);}
@@ -260,7 +245,24 @@ header {
   align-self: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px 0;
+  padding: 130px 0;
+  background-image: url('../img/bg2.jpg');
+  background-size: cover;
+}
+
+#dashboard-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 130px 0;
+  background-image: url('../img/bg4.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 180% 140%;
 }
 
 #home-container-inner {
@@ -269,8 +271,6 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: fixed;
-  z-index: -1;
 }
 
 #bg-header-text {
@@ -305,17 +305,20 @@ header {
   justify-content: center;
   width: 100%;
   min-height: 100vh;
+  background-image: url('../img/bg3.jpg');
 }
 
 #about-container-inner {
   width: 55%;
-  background-color: #f1f1f1;
-  box-shadow: 1px 5px 7px rgba(60, 60, 60, 0.7);
+  /* background-color: #f1f1f1;
+  box-shadow: 1px 5px 7px rgba(60, 60, 60, 0.7); */
   font-size: 18px;
   line-height: 27px;
   padding: 150px;
   min-height: 100vh;
   border-radius: 15px;
+  color: #f1f1f1;
+  text-shadow: 0px 1px 4px rgba(60, 60, 60, 0.8);
 }
 
 #about-container-inner h1 {
@@ -484,7 +487,7 @@ input {
 #header-text {
   font-weight: bold;
   text-align: center;
-  margin-bottom: 80px;
+  color: #404040;
 }
 
 #header-text-white {
@@ -671,12 +674,12 @@ hr {
 }
 
 #title {
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
 }
 
 #article {
-  background-color: #f1f1f1;
+  background-color: #3e5b7c;
   min-width: 400px;
   max-width: 400px;
   min-height: 370px;
@@ -691,7 +694,7 @@ hr {
 }
 
 #article:hover {
-  background-color: #d9d9d9;
+  background-color: #6287b2;
   transform: scale(1.02);
 }
 
@@ -711,15 +714,34 @@ hr {
   justify-content: center;
   min-height: 60px;
   line-height: 25px;
+  color: #f1f1f1;
 }
 
 #article-info h1, small {
   margin: 0;
+  color: #f1f1f1;
+}
+
+#article-info small {
+  font-size: 16px;
+}
+
+#no-bg-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 300px 0;
+}
+
+#profile-container {
+  display: flex;
+  flex-direction: column;
 }
 
 #single-article-container {
   background-color: #f1f1f1;
-  border-radius: 15px;
   box-shadow: 1px 3px 6px rgba(60, 60, 60, 0.2);
   width: 55%;
   padding: 40px;
@@ -727,10 +749,32 @@ hr {
   flex-direction: column;
 }
 
+#single-article-container small {
+  color: #404040;
+  font-size: 17px;
+}
+
+#single-article-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #404040;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 30px;
+}
+
+#author-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 300px;
+  box-shadow: 0 3px 4px rgba(60, 60, 60, 0.7);
+}
+
 #message {
   background-color: #f56962;
   position: relative;
-  margin-top: 20px;
+  top: 150px;
   font-size: 20px;
   border-radius: 15px;
   padding: 5px;
@@ -738,6 +782,7 @@ hr {
   color: white;
   display: flex;
   justify-content: center;
+  margin-bottom: 15px;
 }
 
 #info-header {
@@ -745,12 +790,11 @@ hr {
 }
 
 footer {
-  width: 55%;
-  min-height: 350px;
-  background-color: #121212;
+  width: 100%;
+  min-height: 200px;
+  background-color: #3e5b7c;
   padding: 20px;
-  margin: 50px 0;
-  border-radius: 15px;
+  margin: 0;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -758,12 +802,12 @@ footer {
 }
 
 #social-media-container a {
-  color: white;
+  color: #f1f1f1;
   text-decoration: none;
   font-size: 20px;
   padding: 0 5px;
   transition: ease 0.3s;
-  text-shadow: 2px 3px 5px rgba(60, 60, 60, 0.3);
+  /* text-shadow: 2px 3px 5px rgba(60, 60, 60, 0.3); */
 }
 
 #social-media-container a:hover {
@@ -778,10 +822,10 @@ footer {
 #footer-navbar a {
   font-size: 18px;
   text-decoration: none;
-  color: white;
+  color: #f1f1f1;
   padding: 5px;
   transition: ease 0.3s;
-  text-shadow: 2px 2px 3px rgba(60, 60, 60, 0.4);
+  /* text-shadow: 2px 2px 3px rgba(60, 60, 60, 0.4); */
 }
 
 #footer-navbar a:hover {
@@ -789,9 +833,8 @@ footer {
 }
 
 #footer-text-container {
-  color: white;
+  color: #f1f1f1;
   font-size: 18px;
-  text-shadow: 2px 2px 3px rgba(60, 60, 60, 0.4);
 }
 
 @media only screen and (max-width: 920px) {

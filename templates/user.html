@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {% if user %}
+        {{user.username}}
+    {% else %}
+        <div id="message">Пользователь не существует</div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="container">
+    <div id="single-article-container">
+        <div id="profile-dropdown-info">
+            {% if user %}
+            <img src="{{url_for('static', filename='profile_pics/')}}/{{user.profile_pic}}">
+            <div>
+              <h1 id="profile-info-header">{{user.username}}</h1>
+              <!-- <small>{{user.email}}</small> -->
+            </div>
+            {% endif %}
+        </div>
+
+
+    </div>
+    </div>
+{% endblock %}

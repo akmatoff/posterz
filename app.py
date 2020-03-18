@@ -36,7 +36,7 @@ def save_pic(form_pic):
   pic_filename = filename + file_extension
   pic_path = os.path.join(app.root_path, 'static/profile_pics', pic_filename)
 
-  output_size = (130, 130)
+  output_size = (125, 125)
   i = Image.open(form_pic)
   i.thumbnail(output_size)
   i.save(pic_path)
@@ -69,16 +69,22 @@ def articles():
 
   cur.close()  
 
+# Single article page
 @app.route('/article/<string:id>/')
 def article(id):
   con = sqlite3.connect('posterz.db')
   con.row_factory = sqlite3.Row
   cur = con.cursor()
   cur.execute("SELECT * FROM articles WHERE id = ?", [id])
-
   article = cur.fetchone()
-  return render_template('article.html', article=article)
+  author = article['author']
 
+  cur.execute("SELECT * FROM users WHERE username = ?", [author])
+  user = cur.fetchone()
+
+  return render_template('article.html', article=article, user=user)
+
+# Registration page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
   if request.method == 'POST':
@@ -153,7 +159,7 @@ def confirm_email(token):
     return redirect(url_for('register', error=error))
 
   flash('Вы успешно активировали аккаунт!')
-  return render_template('dashboard.html')  
+  return render_template('login.html')  
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
@@ -188,15 +194,15 @@ def login():
           flash('Вы успешно авторизовались')
           return redirect(url_for('dashboard'))  
         else:
-          error = 'Неверный логин или пароль!'
-          return render_template('login.html', error=error)
+          flash('Неверный логин или пароль!')
+          return render_template('login.html')
       else:
         flash('Ваш аккаунт не активирован! Сначала подтвердите почту!')
-        return render_template('register.html')     
+        return redirect(url_for('login'))  
 
     else:
-      error = 'Пользователь не найден'
-      return render_template('login.html', error=error) 
+      flash('Пользователь не найден')
+      return render_template('login.html') 
  
     cur.close()    
 
@@ -335,6 +341,24 @@ def delete_article(id):
   flash('Статья удалена!')
 
   return redirect(url_for('dashboard'))
+
+# Public profile page
+@app.route('/<username>')
+def user(username):
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  cur.execute("SELECT COUNT(*) FROM users WHERE username = ?", [username])
+  count = cur.fetchone()[0]
+  
+  if count > 0:
+    cur.execute("SELECT * FROM users WHERE username = ?", [username])
+    user = cur.fetchone()
+  else:
+    flash('Пользователь не существует!')
+    return render_template('user.html')
+
+  return render_template('user.html', user=user)  
 
 # Logout
 @app.route('/logout')

@@ -3,16 +3,20 @@
 {% block title %}{{article.title}}{% endblock %}
 
 {% block content %}
-    <div id="container">
+
+    <div id="no-bg-container">
         <div id="single-article-container">
-            <h1 id="header-text">{{article.title}}</h1>
-            <hr>
-            <small><b>Автор:</b> {{article.author}}<br><b>Дата публикации:</b> {{article.create_date}}</small>
-            <hr>
+            <div id="single-article-info">
+                <a href="/{{article.author}}"><img id="author-img" src="{{url_for('static', filename='profile_pics/')}}/{{user.profile_pic}}"></a>
+                <h1 id="title">{{article.author}}</h1>
+                <h1 id="header-text">{{article.title}}</h1>
+                <small><b>Дата публикации: </b> {{article.create_date}}</small>
+            </div>
+
             <div id="article-body">
                 {{article.body | safe}}
             </div>
         </div>
-    </div>
+    </div>    
     
 {% endblock %}
