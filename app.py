@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request
 from flask_mail import Mail, Message
+from PIL import Image
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -34,7 +35,11 @@ def save_pic(form_pic):
   _, file_extension = os.path.splitext(form_pic.filename)
   pic_filename = filename + file_extension
   pic_path = os.path.join(app.root_path, 'static/profile_pics', pic_filename)
-  form_pic.save(pic_path)
+
+  output_size = (130, 130)
+  i = Image.open(form_pic)
+  i.thumbnail(output_size)
+  i.save(pic_path)
 
   return pic_filename
 
