@@ -40,4 +40,5 @@ window.onscroll = () => {
     header.style.top = "-150px";
   }
   scrollPos = currentScrollPos;
+  dropdownContent.style.display = 'none';
 }
