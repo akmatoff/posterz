@@ -75,14 +75,10 @@ header {
   padding: 5px 20px;
   transition: 0.4s ease;
   display: block;
-  border-radius: 15px;
 }
 
 #navbar a:hover, #authorize a:hover {
-  color: #f1f1f1;
-  background-color: #f56962;
-  border-radius: 15px;
-  transform: scale(1.05);
+  color: #f56962;
 }
 
 #header-profile-pic {
@@ -169,12 +165,10 @@ header {
   font-size: 18px;
   transition: ease-in-out 0.4s;
   padding: 10px;
-  border-radius: 5px;
 }
 
 #search-bar:hover {
-  background-color: #f56962;
-  color: #f1f1f1;
+  color: #f56962;
 }
 
 #dropdown {
@@ -382,13 +376,12 @@ header {
   width: 100%;
   min-height: 200px;
   display: flex;
-  justify-content: center;
   margin-bottom: 60px;
 }  
 
 #profile-img {
-  width: 100%;
-  height: 100%;
+  width: 240px;
+  height: 240px;
   border-radius: 360px;
 }
 
@@ -426,6 +419,15 @@ header {
 
 #profile-pic-container input {
   display: none;
+}
+
+#profile-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#profile-info-container div form {
+  width: 270px;
 }
 
 input {
@@ -842,7 +844,7 @@ footer {
 }
 
 #footer-navbar a {
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
   color: #f1f1f1;
   padding: 5px;

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request
 from flask_mail import Mail, Message
-import PIL.Image
+import PIL.Image as Image
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -229,6 +229,8 @@ def profile():
   cur.execute("SELECT * FROM users WHERE username = ?", [session['username']])
 
   user = cur.fetchone()
+  cur.execute("SELECT COUNT(*) FROM articles WHERE author = ?", [session['username']])
+  posts = cur.fetchone()[0]
 
   if request.method == 'POST':
     pic_file = request.files.get('profile-pic')
@@ -241,7 +243,7 @@ def profile():
     flash('Ваша фотография успешно обновлена!')
     
     return redirect(url_for('profile'))
-  return render_template('profile.html', user=user)
+  return render_template('profile.html', user=user, posts=posts)
 
 # Dashboard
 @app.route('/dashboard', methods=['GET', 'POST'])
