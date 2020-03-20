@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request
 from flask_mail import Mail, Message
-from PIL import Image
+import PIL.Image
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -354,11 +354,13 @@ def user(username):
   if count > 0:
     cur.execute("SELECT * FROM users WHERE username = ?", [username])
     user = cur.fetchone()
+    cur.execute('SELECT COUNT(*) FROM articles WHERE author = ?', [user['username']])
+    posts = cur.fetchone()[0]
   else:
     flash('Пользователь не существует!')
     return render_template('user.html')
 
-  return render_template('user.html', user=user)  
+  return render_template('user.html', user=user, posts=posts)  
 
 # Logout
 @app.route('/logout')

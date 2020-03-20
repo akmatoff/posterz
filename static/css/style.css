@@ -676,6 +676,10 @@ hr {
 #title {
   font-size: 20px;
   text-align: center;
+  padding: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #article {
@@ -787,6 +791,25 @@ hr {
 
 #info-header {
   font-size: 22px;
+}
+
+#user-info-container {
+  width: 700px;
+  min-height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 0 auto;
+}
+
+#user-info {
+  width: 150px;
+  height: 80px;
+  text-align: center;
+}
+
+#user-info h1 {
+  font-size: 17px;
 }
 
 footer {
