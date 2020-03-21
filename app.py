@@ -22,9 +22,15 @@ mail = Mail(app)
 
 # con = sqlite3.connect('posterz.db')
 # cur = con.cursor()
-# cur.execute("")
+# cur.execute("""
+# CREATE TABLE followers(
+#   user_id INTEGER REFERENCES users(id),
+#   follower_id INTEGER REFERENCES users(id),
+#   PRIMARY KEY (user_id, follower_id)
+# );
+# """)
 # con.commit()
-# cur.close()
+# con.close()
 
 # Save picture from user input
 def save_pic(form_pic):
@@ -67,7 +73,7 @@ def articles():
     msg = "Статьи не найдены"
     return render_template('articles.html', msg=msg)
 
-  cur.close()  
+  con.close()  
 
 # Single article page
 @app.route('/article/<string:id>/')
@@ -139,7 +145,7 @@ def register():
     flash('На вашу почту отправлена ссылка для подтверждения')
     return redirect(url_for('login'))
 
-    cur.close()
+    con.close()
   return render_template('register.html')  
 
 # Email confirmation page
@@ -152,7 +158,7 @@ def confirm_email(token):
     cur = con.cursor()
     cur.execute("UPDATE users SET active=1 WHERE email=?", [email])
     con.commit()
-    cur.close()
+    con.close()
 
   except SignatureExpired:
     error = 'Ссылка недействительна или просрочена!'
@@ -204,7 +210,7 @@ def login():
       flash('Пользователь не найден')
       return render_template('login.html') 
  
-    cur.close()    
+    con.close()    
 
   return render_template('login.html')
 
@@ -238,7 +244,7 @@ def profile():
 
     cur.execute("UPDATE users SET profile_pic = ? WHERE username = ?", (profile_pic, session['username']))
     con.commit()
-    cur.close()
+    con.close()
 
     flash('Ваша фотография успешно обновлена!')
     
@@ -281,7 +287,7 @@ def add_article():
     cur.execute("INSERT INTO articles(cover, title, body, author) VALUES(?, ?, ?, ?)",(cover, title, body, session['username']))
     
     con.commit()
-    cur.close()
+    con.close()
 
     flash('Статья опубликована!')
 
@@ -320,7 +326,7 @@ def edit_article(id):
     cur.execute("UPDATE articles SET cover=?, title=?, body=? WHERE id = ?", (cover, title, body, id))
     
     con.commit()
-    cur.close()
+    con.close()
 
     flash('Статья обновлена!')
 
@@ -338,14 +344,14 @@ def delete_article(id):
   cur.execute("DELETE FROM articles WHERE id = ?", [id])
 
   con.commit()
-  cur.close()
+  con.close()
 
   flash('Статья удалена!')
 
   return redirect(url_for('dashboard'))
 
 # Public profile page
-@app.route('/<username>')
+@app.route('/<username>', methods=['GET', 'POST'])
 def user(username):
   con = sqlite3.connect('posterz.db')
   con.row_factory = sqlite3.Row
@@ -361,6 +367,16 @@ def user(username):
   else:
     flash('Пользователь не существует!')
     return render_template('user.html')
+
+  if request.method == 'POST':
+    con = sqlite3.connect('posterz.db')
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    user_id = cur.execute("SELECT id FROM users WHERE username = ?", [username])
+    follower_id = cur.execute("SELECT id FROM users WHERE username = ?", [session['username']])
+    cur.execute("INSERT INTO followers(user_id, follower_id) VALUES (?,?)", (user_id, follower_id))
+    con.commit()
+    con.close()
 
   return render_template('user.html', user=user, posts=posts)  
 

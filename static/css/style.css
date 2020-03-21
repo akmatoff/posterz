@@ -813,6 +813,27 @@ hr {
   font-size: 17px;
 }
 
+#subscribe-form {
+  width: 100%;
+  display: flex;
+}
+
+#subscribe-button {
+  width: 100px;
+  height: 30px;
+  border: none;
+  background-color: #6287b2;
+  text-align: center;
+  padding: 5px;
+  color: white;
+  font-weight: bold;
+  transition: linear 0.2s;
+}
+
+#subscribe-button:hover {
+  background-color: #3e5b7c;
+}
+
 footer {
   width: 100%;
   min-height: 200px;

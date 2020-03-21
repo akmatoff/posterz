@@ -11,30 +11,33 @@
 {% block content %}
     <div id="container">
     <div id="single-article-container">
-        <div id="profile-dropdown-info">
-            {% if user %}
-            <img src="{{url_for('static', filename='profile_pics/')}}/{{user.profile_pic}}">
-            <div>
-              <h1 id="profile-info-header">{{user.username}}</h1>
-              <!-- <small>{{user.email}}</small> -->
+        {% if user %}
+            <div id="profile-dropdown-info">
+                
+                <img src="{{url_for('static', filename='profile_pics/')}}/{{user.profile_pic}}">
+                <div>
+                <h1 id="profile-info-header">{{user.username}}</h1>
+                <!-- <small>{{user.email}}</small> -->
+                </div>
             </div>
-            {% endif %}
-        </div>
-        <div id="user-info-container">
-            <div id="user-info">
-                <h1>Подписчики</h1>
-                0
+            <form method="POST">
+                <button type="submit" id="subscribe-button">Подписаться</button>
+            </form>
+            <div id="user-info-container">
+                <div id="user-info">
+                    <h1>Подписчики</h1>
+                    0
+                </div>
+                <div id="user-info">
+                    <h1>Подписки</h1>
+                    0
+                </div>
+                <div id="user-info">
+                    <h1>Посты</h1>
+                    {{posts}}
+                </div>
             </div>
-            <div id="user-info">
-                <h1>Подписки</h1>
-                0
-            </div>
-            <div id="user-info">
-                <h1>Посты</h1>
-                {{posts}}
-            </div>
-        </div>
-
+        {% endif %}
     </div>
     </div>
 {% endblock %}
