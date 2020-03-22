@@ -364,6 +364,8 @@ def user(username):
     user = cur.fetchone()
     cur.execute('SELECT COUNT(*) FROM articles WHERE author = ?', [user['username']])
     posts = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM followers WHERE user_id = ?", [user['id']])
+    followers = cur.fetchone()[0]
   else:
     flash('Пользователь не существует!')
     return render_template('user.html')
@@ -372,13 +374,20 @@ def user(username):
     con = sqlite3.connect('posterz.db')
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    user_id = cur.execute("SELECT id FROM users WHERE username = ?", [username])
-    follower_id = cur.execute("SELECT id FROM users WHERE username = ?", [session['username']])
-    cur.execute("INSERT INTO followers(user_id, follower_id) VALUES (?,?)", (user_id, follower_id))
+    cur.execute("SELECT id FROM users WHERE username = ?", [username])
+    user_id = cur.fetchone()[0]
+    cur.execute("SELECT id FROM users WHERE username = ?", [session['username']])
+    follower_id = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM followers WHERE follower_id = ?", [follower_id])
+    followers = cur.fetchone()[0]
+    if followers > 0:
+      cur.execute("DELETE FROM followers WHERE follower_id = ?", [follower_id])
+    else:  
+      cur.execute("INSERT INTO followers(user_id, follower_id) VALUES (?,?)", (user_id, follower_id))
     con.commit()
     con.close()
 
-  return render_template('user.html', user=user, posts=posts)  
+  return render_template('user.html', user=user, posts=posts, followers=followers)  
 
 # Logout
 @app.route('/logout')
