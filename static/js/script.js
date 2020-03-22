@@ -9,14 +9,6 @@ const subscribeButton = document.querySelector('#subscribe-button');
 const subscribeForm = document.querySelector('#subscribe-form');
 const checkSub = document.querySelector('#subscribed');
 
-var subscribed;
-
-if (checkSub.innerHTML === '1') {
-  subscribed = true;
-} else {
-  subscribed = false;
-}
-
 // Confirm article deletion
 function deleteArticleWarning() {
     var deleteWarning = confirm("Вы действительно хотите удалить статью?");
@@ -54,6 +46,31 @@ window.onscroll = () => {
   dropdownContent.style.display = 'none';
 }
 
+var subscribed;
+
+if (checkSub.innerHTML === '1') {
+  subscribed = true;
+} else {
+  subscribed = false;
+}
+
+function followOrUnfollow() {
+  if (subscribed) {
+    subscribed = false;
+  } else {
+    subscribed = true;
+  }
+  subscribeForm.submit();
+  
+}
+
+function reloadPage() {
+  setTimeout(() => {
+    window.location.reload(true);
+    console.log('reload');
+  }, 1000); 
+}
+
 window.onload = () => {
   if (subscribed) {
     subscribeButton.value = 'Отписаться';
@@ -61,25 +78,3 @@ window.onload = () => {
     subscribeButton.value = 'Подписаться';
   }
 }
-
-function followOrUnfollow() {
-  if (subscribeButton.value = 'Подписаться') {
-    subscribeButton.value = 'Отписаться';
-    subscribed = true;
-  } else {
-    subscribeButton.value = 'Подписаться';
-    subscribed = false;
-  }
-  subscribeForm.submit();
-  setTimeout(() => {
-    window.location.reload();
-  }, 3);
-
-}
-
-function reloadPage() {
-  window.location.reload();
-}
-
-subscribeForm.addEventListener('submit', reloadPage)
-

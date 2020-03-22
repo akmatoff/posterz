@@ -23,7 +23,7 @@
 
             <p id="subscribed" style="display: none;">{{sub}}</p>
 
-            <form id="subscribe-form" method="POST">
+            <form id="subscribe-form" method="POST" onsubmit="reloadPage()">
                 <input type="button" id="subscribe-button" value="" onclick="followOrUnfollow()">
             </form>
 
