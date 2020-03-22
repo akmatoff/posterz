@@ -20,9 +20,13 @@
                 <!-- <small>{{user.email}}</small> -->
                 </div>
             </div>
+
+            <p id="subscribed" style="display: none;">{{sub}}</p>
+
             <form id="subscribe-form" method="POST">
-                <button type="submit" id="subscribe-button">Подписаться</button>
+                <input type="button" id="subscribe-button" value="" onclick="followOrUnfollow()">
             </form>
+
             <div id="user-info-container">
                 <div id="user-info">
                     <h1>Подписчики</h1>

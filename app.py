@@ -359,6 +359,7 @@ def user(username):
   cur.execute("SELECT COUNT(*) FROM users WHERE username = ?", [username])
   count = cur.fetchone()[0]
   
+  # If user exists
   if count > 0:
     cur.execute("SELECT * FROM users WHERE username = ?", [username])
     user = cur.fetchone()
@@ -366,6 +367,26 @@ def user(username):
     posts = cur.fetchone()[0]
     cur.execute("SELECT COUNT(*) FROM followers WHERE user_id = ?", [user['id']])
     followers = cur.fetchone()[0]
+
+    sub = '0'
+
+    if followers > 0:
+      # Get id of all the followers of the user
+      cur.execute("SELECT follower_id FROM followers WHERE user_id = ?", [user['id']])
+      followers_id = cur.fetchall()[0]
+      
+      # Get id of the current user
+      cur.execute("SELECT id FROM users WHERE username = ?", [session['username']])
+      f_id = cur.fetchone()[0]
+
+      # Check if current user is subscribed
+      if f_id in followers_id:
+        sub = '1'
+      else:
+        sub = '0'
+    else:
+      sub = '0'
+
   else:
     flash('Пользователь не существует!')
     return render_template('user.html')
@@ -387,7 +408,7 @@ def user(username):
     con.commit()
     con.close()
 
-  return render_template('user.html', user=user, posts=posts, followers=followers)  
+  return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub)  
 
 # Logout
 @app.route('/logout')
