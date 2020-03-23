@@ -176,7 +176,7 @@ header {
   border: none;
   width: 30px;
   height: 30px;
-  display: flex;
+  display: none;
   justify-content: center;
 }
 
@@ -928,12 +928,8 @@ footer {
     display: none;
   }
 
-  #dropdown {
-    display: inline-block;
-  }
-
-  #authorize {
-    display: none;
+  #sidebar-button {
+    display: block;
   }
 
   #profile-dropdown {

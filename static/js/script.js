@@ -29,7 +29,6 @@ function showSidebar() {
 
 function closeSidebar() {
   sidebar.style.width = '0';
-  sidebarOpen = false;
   sidebarCloser.style.display = 'none';
   searchBar.style.display = 'block';
 }
@@ -46,7 +45,6 @@ window.onscroll = () => {
     header.style.top = "-150px";
   }
   scrollPos = currentScrollPos;
-  sidebar.style.width = '0';
 }
 
 var subscribed;
