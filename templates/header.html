@@ -14,9 +14,17 @@
   </div>
 
   <!-- For mobile devices -->
-  <div id="dropdown">
-    <button id="dropdown-button" onclick="showDropdownContent()"><i class="fas fa-bars"></i></button>
-    <div id="dropdown-content">
+    <button id="sidebar-button" onclick="showSidebar()"><i class="fas fa-bars" id="sidebar-btn"></i></button>
+    <div id="sidebar">
+      {% if session.logged_in %}
+      <div id="sidebar-profile-pic">
+        <img src="{{url_for('static', filename='profile_pics/')}}/{{session.profile_pic}}">
+      </div>
+      <div id="sidebar-profile">
+        <h1>{{session.username}}</h1>
+        <small id="sidebar-small">{{session.email}}</small>
+      </div>
+      {% endif %}
       <a href="/">ГЛАВНАЯ</a>
       <a href="/#about-container">О САЙТЕ</a>
       <a href="/articles">СТАТЬИ</a>
@@ -24,16 +32,12 @@
         <a href="/profile">МОЙ ПРОФИЛЬ</a>
         <a href="/dashboard">МОИ СТАТЬИ</a>
         <a href="/logout">ВЫЙТИ</a>
-    {% else %}
-    <a href="/login">ВОЙТИ</a>
-    <a href="/register">РЕГИСТРАЦИЯ</a>
-    {% endif %}
+      {% else %}
+        <a href="/login">ВОЙТИ</a>
+        <a href="/register">РЕГИСТРАЦИЯ</a>
+      {% endif %}
     </div>
-  </div>
-
-  <!-- <div id="authorize">
-    
-  </div> -->
+    <div id="sidebar-closer"></div>
 
   {% if session.logged_in %}
   <div id="profile-dropdown">

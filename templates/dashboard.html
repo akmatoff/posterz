@@ -26,7 +26,7 @@
                         <td>
                             <form action="{{url_for('delete_article', id=article.id)}}" method="POST" id="delete-form">
                                 <input type="hidden" name="_method" value="Удалить">
-                                <input type="submit" value="Удалить" id="delete-button" onclick="deleteArticleWarning()">
+                                <input type="button" value="Удалить" id="delete-button" onclick="deleteArticleWarning()">
                             </form>
                         </td> 
                         <td>

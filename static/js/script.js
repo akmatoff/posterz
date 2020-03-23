@@ -1,37 +1,40 @@
 const header = document.querySelector('header');
 const deleteForm = document.querySelector('#delete-form');
-const dropdownContent = document.querySelector('#dropdown-content');
-const dropdownButton = document.querySelector('#dropdown-button');
+const sidebar = document.querySelector('#sidebar');
+const sidebarButton = document.querySelector('#sidebar-button');
+const sidebarCloser = document.querySelector('#sidebar-closer');
 const background = document.querySelector('#background');
 const profilePicInput = document.querySelector('#profile-pic');
 const profilePic = document.querySelector('#profile-img');
 const subscribeButton = document.querySelector('#subscribe-button');
 const subscribeForm = document.querySelector('#subscribe-form');
 const checkSub = document.querySelector('#subscribed');
+const searchBar = document.querySelector('#search-bar');
 
 // Confirm article deletion
 function deleteArticleWarning() {
     var deleteWarning = confirm("Вы действительно хотите удалить статью?");
 
-    if (deleteWarning === false) {
-        deleteForm.removeAttribute('action');
+    if (deleteWarning) {
+      deleteForm.submit();
     }
 }
 
-// Show dropdown
-function showDropdownContent() {
-  if (dropdownContent.style.display === 'flex') {
-    dropdownContent.style.display = 'none';
-  } else {
-    dropdownContent.style.display = 'flex';
-  }
+// Open sidebar
+function showSidebar() {
+  sidebar.style.width = '60%';
+  sidebarCloser.style.display = 'block';
+  searchBar.style.display = 'none';
 }
 
-function setPic() {
-  profilePic.src = profilePicInput.value;
-  console.log("Pic changed!");
-  console.log(profilePicInput.value);
+function closeSidebar() {
+  sidebar.style.width = '0';
+  sidebarOpen = false;
+  sidebarCloser.style.display = 'none';
+  searchBar.style.display = 'block';
 }
+
+sidebarCloser.addEventListener('click', closeSidebar);
 
 // Hide header on scroll
 var scrollPos = window.pageYOffset;
@@ -43,7 +46,7 @@ window.onscroll = () => {
     header.style.top = "-150px";
   }
   scrollPos = currentScrollPos;
-  dropdownContent.style.display = 'none';
+  sidebar.style.width = '0';
 }
 
 var subscribed;
