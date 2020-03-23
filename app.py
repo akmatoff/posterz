@@ -408,6 +408,8 @@ def user(username):
     con.commit()
     con.close()
 
+    return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub)
+
   return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub)  
 
 # Logout

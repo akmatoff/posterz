@@ -61,20 +61,18 @@ function followOrUnfollow() {
     subscribed = true;
   }
   subscribeForm.submit();
-  
 }
 
-function reloadPage() {
-  setTimeout(() => {
-    window.location.reload(true);
-    console.log('reload');
-  }, 1000); 
-}
+// Change button text, submit form, reload page on click
+subscribeButton.addEventListener('click', function(){
+  followOrUnfollow();
+  setTimeout(function(){window.location.reload(true);},10)
+});
 
 window.onload = () => {
   if (subscribed) {
-    subscribeButton.value = 'Отписаться';
+    subscribeButton.innerHTML = 'Отписаться';
   } else {
-    subscribeButton.value = 'Подписаться';
+    subscribeButton.innerHTML = 'Подписаться';
   }
 }
