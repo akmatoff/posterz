@@ -828,7 +828,7 @@ hr {
 }
 
 #user-info-container {
-  width: 700px;
+  width: 100%;
   min-height: 80px;
   display: flex;
   flex-wrap: wrap;
@@ -869,7 +869,7 @@ hr {
 
 footer {
   width: 100%;
-  min-height: 200px;
+  min-height: 230px;
   background-color: #3e5b7c;
   padding: 20px;
   margin: 0;
@@ -883,7 +883,7 @@ footer {
   color: #f1f1f1;
   text-decoration: none;
   font-size: 20px;
-  padding: 0 5px;
+  padding: 10px 5px;
   transition: ease 0.3s;
   /* text-shadow: 2px 3px 5px rgba(60, 60, 60, 0.3); */
 }
@@ -895,6 +895,7 @@ footer {
 #footer-navbar {
   display: flex;
   flex-direction: column;
+  margin: 10px;
 }
 
 #footer-navbar a {
@@ -984,6 +985,10 @@ footer {
 
   #article-container {
     padding: 10px;
+  }
+
+  #single-article-container {
+    max-width: 100%;
   }
 
   footer {

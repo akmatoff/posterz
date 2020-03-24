@@ -233,10 +233,13 @@ def profile():
   con.row_factory = sqlite3.Row
   cur = con.cursor()
   cur.execute("SELECT * FROM users WHERE username = ?", [session['username']])
-
   user = cur.fetchone()
   cur.execute("SELECT COUNT(*) FROM articles WHERE author = ?", [session['username']])
   posts = cur.fetchone()[0]
+  cur.execute("SELECT COUNT(*) FROM followers WHERE user_id = ?", [user['id']])
+  followers = cur.fetchone()[0]   
+  cur.execute("SELECT COUNT(follower_id) FROM followers WHERE follower_id = ?", [user['id']])
+  following = cur.fetchone()[0]                
 
   if request.method == 'POST':
     pic_file = request.files.get('profile-pic')
@@ -247,9 +250,9 @@ def profile():
     con.close()
 
     flash('Ваша фотография успешно обновлена!')
-    
+                                                                      
     return redirect(url_for('profile'))
-  return render_template('profile.html', user=user, posts=posts)
+  return render_template('profile.html', user=user, posts=posts, followers=followers, following=following)
 
 # Dashboard
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -367,6 +370,8 @@ def user(username):
     posts = cur.fetchone()[0]
     cur.execute("SELECT COUNT(*) FROM followers WHERE user_id = ?", [user['id']])
     followers = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(follower_id) FROM followers WHERE follower_id = ?", [user['id']])
+    following = cur.fetchone()[0]
 
     sub = '0'
 
@@ -408,9 +413,9 @@ def user(username):
     con.commit()
     con.close()
 
-    return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub)
+    return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub, following=following)
 
-  return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub)  
+  return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub, following=following)  
 
 # Logout
 @app.route('/logout')
