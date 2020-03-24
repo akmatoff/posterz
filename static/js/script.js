@@ -67,7 +67,7 @@ function followOrUnfollow() {
 // Change button text, submit form, reload page on click
 subscribeButton.addEventListener('click', function(){
   followOrUnfollow();
-  setTimeout(function(){window.location.reload(true);},10)
+  setTimeout(function(){window.location.reload(true);},150)
 });
 
 window.onload = () => {

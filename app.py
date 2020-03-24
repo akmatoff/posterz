@@ -238,8 +238,8 @@ def profile():
   posts = cur.fetchone()[0]
   cur.execute("SELECT COUNT(*) FROM followers WHERE user_id = ?", [user['id']])
   followers = cur.fetchone()[0]   
-  cur.execute("SELECT COUNT(follower_id) FROM followers WHERE follower_id = ?", [user['id']])
-  following = cur.fetchone()[0]                
+  cur.execute("SELECT COUNT(DISTINCT user_id) FROM followers WHERE follower_id = ?", [user['id']])
+  following = cur.fetchone()[0]               
 
   if request.method == 'POST':
     pic_file = request.files.get('profile-pic')
@@ -370,7 +370,7 @@ def user(username):
     posts = cur.fetchone()[0]
     cur.execute("SELECT COUNT(*) FROM followers WHERE user_id = ?", [user['id']])
     followers = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(follower_id) FROM followers WHERE follower_id = ?", [user['id']])
+    cur.execute("SELECT COUNT(DISTINCT user_id) FROM followers WHERE follower_id = ?", [user['id']])
     following = cur.fetchone()[0]
 
     sub = '0'
