@@ -377,15 +377,23 @@ def user(username):
 
     if followers > 0:
       # Get id of all the followers of the user
-      cur.execute("SELECT follower_id FROM followers WHERE user_id = ?", [user['id']])
-      followers_id = cur.fetchall()[0]
+      cur.execute("SELECT * FROM followers WHERE user_id = ?", [user['id']])
+      user_followers = cur.fetchall()
+
+      # for fid in user_followers:
+      #   print(fid['follower_id'])
       
       # Get id of the current user
       cur.execute("SELECT id FROM users WHERE username = ?", [session['username']])
       f_id = cur.fetchone()[0]
 
+      all_followers = []
+
       # Check if current user is subscribed
-      if f_id in followers_id:
+      for follower in user_followers:
+        all_followers.append(follower['follower_id'])
+
+      if f_id in all_followers:
         sub = '1'
       else:
         sub = '0'
@@ -404,16 +412,14 @@ def user(username):
     user_id = cur.fetchone()[0]
     cur.execute("SELECT id FROM users WHERE username = ?", [session['username']])
     follower_id = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(*) FROM followers WHERE follower_id = ?", [follower_id])
+    cur.execute("SELECT COUNT(*) FROM followers WHERE follower_id = ? AND user_id = ?", [follower_id, user_id])
     followers = cur.fetchone()[0]
     if followers > 0:
-      cur.execute("DELETE FROM followers WHERE follower_id = ?", [follower_id])
+      cur.execute("DELETE FROM followers WHERE follower_id = ? AND user_id = ?", [follower_id, user_id])
     else:  
       cur.execute("INSERT INTO followers(user_id, follower_id) VALUES (?,?)", (user_id, follower_id))
     con.commit()
     con.close()
-
-    return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub, following=following)
 
   return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub, following=following)  
 
