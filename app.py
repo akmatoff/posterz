@@ -251,7 +251,7 @@ def profile():
 
     flash('Ваша фотография успешно обновлена!')
                                                                       
-    return redirect(url_for('profile'))
+    # return redirect(url_for('profile'))
   return render_template('profile.html', user=user, posts=posts, followers=followers, following=following)
 
 # Dashboard
