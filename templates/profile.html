@@ -40,7 +40,7 @@
                     {{user['reg_date']}}
                     <h1 id="info-header">Обновить аватар</h1>
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data" id="profile-form">
                         <div id="profile-pic-container" style="justify-content: left;">
                             <label for="profile-pic" id="profile-pic-label">
                             <img src="{{url_for('static', filename='profile_pics/')}}/{{session.profile_pic}}" id="profile-img">
