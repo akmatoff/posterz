@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block title %}Статьи{% endblock %}
+
+{% block content %}
+    <div id="container">
+        <div id="flex-container">
+            {% for article in articles %}
+            <a href="article/{{article.id}}">
+            <div id="article">
+                <img src="{{article.cover}}">
+                <div id="article-info">
+                    <h1 id="title">{{ article.title }}</h1>
+                    <small>{{ article.author }}</small>
+                </div>
+            </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

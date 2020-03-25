@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+
+    <div id="container">
+        <div id="single-article-container">
+            {% for user in users %}
+            <a href="/{{user.username}}" style="text-decoration: none; color: #404040;">
+            <div id="profile-dropdown-info">
+                <img src="{{url_for('static', filename='profile_pics/')}}/{{user.profile_pic}}">
+                <div>
+                <h1 id="profile-info-header">{{user.username}}</h1>
+                </div>
+            </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

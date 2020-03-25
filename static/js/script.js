@@ -10,7 +10,6 @@ const subscribeButton = document.querySelector('#subscribe-button');
 const subscribeForm = document.querySelector('#subscribe-form');
 const checkSub = document.querySelector('#subscribed');
 const searchBar = document.querySelector('#search-bar');
-const profileForm = document.querySelector('#profile-form');
 
 // Confirm article deletion
 function deleteArticleWarning() {
@@ -68,12 +67,8 @@ function followOrUnfollow() {
 // Change button text, submit form, reload page on click
 subscribeButton.addEventListener('click', function(){
   followOrUnfollow();
-  setTimeout(function(){window.location.reload(true);},150)
+  setTimeout(function(){window.location.reload(true);},30)
 });
-
-profileForm.addEventListener('submit', function(){
-  setTimeout(function(){window.location.reload(true);},150)
-})
 
 window.onload = () => {
   if (subscribed) {

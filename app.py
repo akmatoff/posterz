@@ -421,7 +421,59 @@ def user(username):
     con.commit()
     con.close()
 
+    return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub, following=following)  
+
   return render_template('user.html', user=user, posts=posts, followers=followers, sub=sub, following=following)  
+
+# Users list page
+@app.route('/users')
+def users():
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  cur.execute("SELECT * FROM users")
+  users = cur.fetchall()
+
+  return render_template('users.html', users=users)  
+
+# @app.route('/<username>/followers')
+# def user_followers(username):
+#   con = sqlite3.connect('posterz.db')
+#   con.row_factory = sqlite3.Row 
+#   cur = con.cursor()
+#   cur.execute("SELECT id FROM users WHERE username = ?", [username])
+#   user_id = cur.fetchone()[0]
+#   cur.execute("SELECT * FROM followers WHERE user_id = ?", [user_id])
+#   followers = cur.fetchall()
+
+#   return render_template('user_followers.html') 
+
+# Certain user articles
+@app.route('/<username>/articles')
+def user_articles(username):
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor();
+  cur.execute("SELECT * FROM articles WHERE author = ?", [username])
+
+  articles = cur.fetchall()
+
+  return render_template('user_articles.html', articles=articles)  
+
+# Single user article page
+@app.route('/<username>/article/<string:id>/')
+def user_article(username, id):
+  con = sqlite3.connect('posterz.db')
+  con.row_factory = sqlite3.Row
+  cur = con.cursor()
+  cur.execute("SELECT * FROM articles WHERE id = ?", [id])
+  article = cur.fetchone()
+  author = article['author']
+
+  cur.execute("SELECT * FROM users WHERE username = ?", [author])
+  user = cur.fetchone()
+
+  return render_template('article.html', article=article, user=user)  
 
 # Logout
 @app.route('/logout')
