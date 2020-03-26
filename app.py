@@ -355,6 +355,7 @@ def delete_article(id):
 
 # Public profile page
 @app.route('/<username>', methods=['GET', 'POST'])
+@is_logged_in
 def user(username):
   con = sqlite3.connect('posterz.db')
   con.row_factory = sqlite3.Row
